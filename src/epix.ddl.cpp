@@ -420,8 +420,11 @@ void createWrappers(PyObject* module) {
   scope outer = 
   class_<Psana::Epix::Config100aV2, boost::shared_ptr<Psana::Epix::Config100aV2>, boost::noncopyable >("Config100aV2", no_init)
     .def("version", &Psana::Epix::Config100aV2::version)
-    .def("runTrigDelay", &Psana::Epix::Config100aV2::runTrigDelay)
-    .def("daqTrigDelay", &Psana::Epix::Config100aV2::daqTrigDelay)
+    .def("usePgpEvr", &Psana::Epix::Config100aV2::usePgpEvr)
+    .def("evrRunCode", &Psana::Epix::Config100aV2::evrRunCode)
+    .def("evrDaqCode", &Psana::Epix::Config100aV2::evrDaqCode)
+    .def("evrRunTrigDelay", &Psana::Epix::Config100aV2::evrRunTrigDelay)
+    .def("epixRunTrigDelay", &Psana::Epix::Config100aV2::epixRunTrigDelay)
     .def("dacSetting", &Psana::Epix::Config100aV2::dacSetting)
     .def("asicGR", &Psana::Epix::Config100aV2::asicGR)
     .def("asicAcq", &Psana::Epix::Config100aV2::asicAcq)
@@ -450,6 +453,10 @@ void createWrappers(PyObject* module) {
     .def("adcClkHalfT", &Psana::Epix::Config100aV2::adcClkHalfT)
     .def("asicR0Width", &Psana::Epix::Config100aV2::asicR0Width)
     .def("adcPipelineDelay", &Psana::Epix::Config100aV2::adcPipelineDelay)
+    .def("adcPipelineDelay0", &Psana::Epix::Config100aV2::adcPipelineDelay0)
+    .def("adcPipelineDelay1", &Psana::Epix::Config100aV2::adcPipelineDelay1)
+    .def("adcPipelineDelay2", &Psana::Epix::Config100aV2::adcPipelineDelay2)
+    .def("adcPipelineDelay3", &Psana::Epix::Config100aV2::adcPipelineDelay3)
     .def("SyncWidth", &Psana::Epix::Config100aV2::SyncWidth)
     .def("SyncDelay", &Psana::Epix::Config100aV2::SyncDelay)
     .def("prepulseR0Width", &Psana::Epix::Config100aV2::prepulseR0Width)
@@ -538,6 +545,26 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::ElementV2> >(Pds::TypeId::Id_EpixElement));
 
   {
+  scope outer = 
+  class_<Psana::Epix::ElementV3, boost::shared_ptr<Psana::Epix::ElementV3>, boost::noncopyable >("ElementV3", no_init)
+    .def("vc", &Psana::Epix::ElementV3::vc)
+    .def("lane", &Psana::Epix::ElementV3::lane)
+    .def("acqCount", &Psana::Epix::ElementV3::acqCount)
+    .def("frameNumber", &Psana::Epix::ElementV3::frameNumber)
+    .def("ticks", &Psana::Epix::ElementV3::ticks)
+    .def("fiducials", &Psana::Epix::ElementV3::fiducials)
+    .def("frame", &Psana::Epix::ElementV3::frame)
+    .def("calibrationRows", &Psana::Epix::ElementV3::calibrationRows)
+    .def("environmentalRows", &Psana::Epix::ElementV3::environmentalRows)
+    .def("temperatures", &Psana::Epix::ElementV3::temperatures)
+    .def("lastWord", &Psana::Epix::ElementV3::lastWord)
+  ;
+  scope().attr("Version")=3;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_EpixElement);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::ElementV3> >(Pds::TypeId::Id_EpixElement));
+
+  {
     PyObject* unvlist = PyList_New(1);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
@@ -557,17 +584,19 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(2);
+    PyObject* unvlist = PyList_New(3);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ElementV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ElementV2"));
+    PyList_SET_ITEM(unvlist, 2, PyObject_GetAttrString(submodule, "ElementV3"));
     PyObject_SetAttrString(submodule, "Element", unvlist);
     Py_CLEAR(unvlist);
   }
   detail::register_ndarray_to_numpy_cvt<const uint32_t, 3>();
+  detail::register_ndarray_to_numpy_cvt<const uint32_t, 2>();
+  detail::register_ndarray_to_numpy_cvt<const uint16_t, 3>();
   detail::register_ndarray_to_numpy_cvt<const uint16_t, 2>();
   detail::register_ndarray_to_numpy_cvt<const uint8_t, 2>();
   detail::register_ndarray_to_numpy_cvt<const uint16_t, 1>();
-  detail::register_ndarray_to_numpy_cvt<const uint16_t, 3>();
 
 } // createWrappers()
 } // namespace Epix
