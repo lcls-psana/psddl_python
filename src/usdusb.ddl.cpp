@@ -33,6 +33,32 @@ void createWrappers(PyObject* module) {
   scope mod = object(handle<>(borrowed(submodule)));
   {
   scope outer = 
+  class_<Psana::UsdUsb::FexConfigV1, boost::shared_ptr<Psana::UsdUsb::FexConfigV1>, boost::noncopyable >("FexConfigV1", "Class for creating a FexData for an encoder - takes an offset and scale.", no_init)
+    .def("offset", &Psana::UsdUsb::FexConfigV1::offset,"Offset (in counts) to apply to raw encoder counts")
+    .def("scale", &Psana::UsdUsb::FexConfigV1::scale,"Scale factor for converting encoder counts to units")
+    .def("name", &Psana::UsdUsb::FexConfigV1::name,"Descriptive name for each channel")
+    .def("name_shape", &method_shape<Psana::UsdUsb::FexConfigV1, &Psana::UsdUsb::FexConfigV1::name_shape>)
+  ;
+  scope().attr("Version")=1;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_UsdUsbFexConfig);
+  scope().attr("NCHANNELS")=4;
+  scope().attr("NAME_CHAR_MAX")=48;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::UsdUsb::FexConfigV1> >(Pds::TypeId::Id_UsdUsbFexConfig));
+
+  {
+  scope outer = 
+  class_<Psana::UsdUsb::FexDataV1, boost::shared_ptr<Psana::UsdUsb::FexDataV1>, boost::noncopyable >("FexDataV1", "Class for holding the encoder value after application of an offset and scale.", no_init)
+    .def("encoder_values", &Psana::UsdUsb::FexDataV1::encoder_values,"Corrected encoder value = (raw_count + offset) * scale")
+  ;
+  scope().attr("Version")=1;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_UsdUsbFexData);
+  scope().attr("Encoder_Inputs")=4;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::UsdUsb::FexDataV1> >(Pds::TypeId::Id_UsdUsbFexData));
+
+  {
+  scope outer = 
   class_<Psana::UsdUsb::ConfigV1, boost::shared_ptr<Psana::UsdUsb::ConfigV1>, boost::noncopyable >("ConfigV1", no_init)
     .def("counting_mode", &Psana::UsdUsb::ConfigV1::counting_mode)
     .def("quadrature_mode", &Psana::UsdUsb::ConfigV1::quadrature_mode)
@@ -82,13 +108,26 @@ void createWrappers(PyObject* module) {
   }
   {
     PyObject* unvlist = PyList_New(1);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "FexDataV1"));
+    PyObject_SetAttrString(submodule, "FexData", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  {
+    PyObject* unvlist = PyList_New(1);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
+  {
+    PyObject* unvlist = PyList_New(1);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "FexConfigV1"));
+    PyObject_SetAttrString(submodule, "FexConfig", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  detail::register_ndarray_to_numpy_cvt<const uint8_t, 1>();
   detail::register_ndarray_to_numpy_cvt<const uint32_t, 1>();
   detail::register_ndarray_to_numpy_cvt<const uint16_t, 1>();
-  detail::register_ndarray_to_numpy_cvt<const uint8_t, 1>();
+  detail::register_ndarray_to_numpy_cvt<const double, 1>();
   detail::register_ndarray_to_numpy_cvt<const int32_t, 1>();
 
 } // createWrappers()
