@@ -69,6 +69,50 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::Andor::ConfigV2, boost::shared_ptr<Psana::Andor::ConfigV2>, boost::noncopyable >("ConfigV2", no_init)
+    .def("width", &Psana::Andor::ConfigV2::width)
+    .def("height", &Psana::Andor::ConfigV2::height)
+    .def("orgX", &Psana::Andor::ConfigV2::orgX)
+    .def("orgY", &Psana::Andor::ConfigV2::orgY)
+    .def("binX", &Psana::Andor::ConfigV2::binX)
+    .def("binY", &Psana::Andor::ConfigV2::binY)
+    .def("exposureTime", &Psana::Andor::ConfigV2::exposureTime)
+    .def("coolingTemp", &Psana::Andor::ConfigV2::coolingTemp)
+    .def("fanMode", &Psana::Andor::ConfigV2::fanMode)
+    .def("cropMode", &Psana::Andor::ConfigV2::cropMode)
+    .def("baselineClamp", &Psana::Andor::ConfigV2::baselineClamp)
+    .def("highCapacity", &Psana::Andor::ConfigV2::highCapacity)
+    .def("gainIndex", &Psana::Andor::ConfigV2::gainIndex)
+    .def("readoutSpeedIndex", &Psana::Andor::ConfigV2::readoutSpeedIndex)
+    .def("exposureEventCode", &Psana::Andor::ConfigV2::exposureEventCode)
+    .def("numDelayShots", &Psana::Andor::ConfigV2::numDelayShots)
+    .def("frameSize", &Psana::Andor::ConfigV2::frameSize,"Total size in bytes of the Frame object")
+    .def("numPixelsX", &Psana::Andor::ConfigV2::numPixelsX,"calculate frame X size in pixels based on the current ROI and binning settings")
+    .def("numPixelsY", &Psana::Andor::ConfigV2::numPixelsY,"calculate frame Y size in pixels based on the current ROI and binning settings")
+    .def("numPixels", &Psana::Andor::ConfigV2::numPixels,"calculate total frame size in pixels based on the current ROI and binning settings")
+  ;
+
+  enum_<Psana::Andor::ConfigV2::EnumFanMode>("EnumFanMode")
+    .value("ENUM_FAN_FULL",Psana::Andor::ConfigV2::ENUM_FAN_FULL)
+    .value("ENUM_FAN_LOW",Psana::Andor::ConfigV2::ENUM_FAN_LOW)
+    .value("ENUM_FAN_OFF",Psana::Andor::ConfigV2::ENUM_FAN_OFF)
+    .value("ENUM_FAN_ACQOFF",Psana::Andor::ConfigV2::ENUM_FAN_ACQOFF)
+    .value("ENUM_FAN_NUM",Psana::Andor::ConfigV2::ENUM_FAN_NUM)
+  ;
+
+  enum_<Psana::Andor::ConfigV2::EnumCropMode>("EnumCropMode")
+    .value("ENUM_CROP_OFF",Psana::Andor::ConfigV2::ENUM_CROP_OFF)
+    .value("ENUM_CROP_ON",Psana::Andor::ConfigV2::ENUM_CROP_ON)
+    .value("ENUM_CROP_EX",Psana::Andor::ConfigV2::ENUM_CROP_EX)
+    .value("ENUM_CROP_NUM",Psana::Andor::ConfigV2::ENUM_CROP_NUM)
+  ;
+  scope().attr("Version")=2;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_AndorConfig);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Andor::ConfigV2> >(Pds::TypeId::Id_AndorConfig));
+
+  {
+  scope outer = 
   class_<Psana::Andor::FrameV1, boost::shared_ptr<Psana::Andor::FrameV1>, boost::noncopyable >("FrameV1", no_init)
     .def("shotIdStart", &Psana::Andor::FrameV1::shotIdStart)
     .def("readoutTime", &Psana::Andor::FrameV1::readoutTime)
@@ -87,8 +131,9 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(1);
+    PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
