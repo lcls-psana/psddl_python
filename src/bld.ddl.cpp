@@ -46,7 +46,7 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
-  class_<Psana::Bld::BldDataFEEGasDetEnergyV1 >("BldDataFEEGasDetEnergyV1", "Six energy measurements from Front End Enclosure Gas Detector.\n   PV names: GDET:FEE1:241:ENRC, GDET:FEE1:242:ENRC, \n	GDET:FEE1:361:ENRC, GDET:FEE1:362:ENRC, \n	GDET:FEE1:363:ENRC, and GDET:FEE1:364:ENRC \n   Each pair of methods (e.g. f_11_ENRC(), f_12_ENRC() contains\n   identical measurements using two different phototubes.  \"11\" and \"12\"\n   are before the gas attenuation.  \"21\" and \"22\" are after gas\n   attenuation.\n   \"63\" and \"64\" are duplicate measurements of \"21\" and \"22\" respectively. \n    The difference is that they cover a smaller (10%) dynamic range. \n    When the beam is weak, 361 and 362 don't have good S/N, these 2 extra PVs should be used instead.  Dehong Zhang suggests that the threshold\n    for \"weak\" is around 0.5 mJ.", no_init)
+  class_<Psana::Bld::BldDataFEEGasDetEnergyV1 >("BldDataFEEGasDetEnergyV1", "Six energy measurements from Front End Enclosure Gas Detector.\n   PV names: GDET:FEE1:241:ENRC, GDET:FEE1:242:ENRC, \n    GDET:FEE1:361:ENRC, GDET:FEE1:362:ENRC, \n    GDET:FEE1:363:ENRC, and GDET:FEE1:364:ENRC \n   Each pair of methods (e.g. f_11_ENRC(), f_12_ENRC() contains\n   identical measurements using two different phototubes.  \"11\" and \"12\"\n   are before the gas attenuation.  \"21\" and \"22\" are after gas\n   attenuation.\n   \"63\" and \"64\" are duplicate measurements of \"21\" and \"22\" respectively. \n    The difference is that they cover a smaller (10%) dynamic range. \n    When the beam is weak, 361 and 362 don't have good S/N, these 2 extra PVs should be used instead.  Dehong Zhang suggests that the threshold\n    for \"weak\" is around 0.5 mJ.", no_init)
     .def("f_11_ENRC", &Psana::Bld::BldDataFEEGasDetEnergyV1::f_11_ENRC,"First energy measurement (mJ) before attenuation. (pv name GDET:FEE1:241:ENRC)")
     .def("f_12_ENRC", &Psana::Bld::BldDataFEEGasDetEnergyV1::f_12_ENRC,"Second (duplicate!) energy measurement (mJ) after attenuation. (pv name GDET:FEE1:242:ENRC)")
     .def("f_21_ENRC", &Psana::Bld::BldDataFEEGasDetEnergyV1::f_21_ENRC,"First energy measurement (mJ) after attenuation. (pv name  GDET:FEE1:361:ENRC)")
@@ -365,6 +365,19 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::Bld::BldDataEOrbitsV0, boost::shared_ptr<Psana::Bld::BldDataEOrbitsV0>, boost::noncopyable >("BldDataEOrbitsV0", "Orbit parameters.", no_init)
+    .def("nBPMS", &Psana::Bld::BldDataEOrbitsV0::nBPMS,"Number of BPM in each array")
+    .def("fBPM_X", &Psana::Bld::BldDataEOrbitsV0::fBPM_X,"Array of BPM X values (mm)")
+    .def("fBPM_Y", &Psana::Bld::BldDataEOrbitsV0::fBPM_Y,"Array of BPM Y values (mm)")
+    .def("fBPM_TMIT", &Psana::Bld::BldDataEOrbitsV0::fBPM_TMIT,"Array of BPM TMIT values (Nel)")
+  ;
+  scope().attr("Version")=0;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_EOrbits);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Bld::BldDataEOrbitsV0> >(Pds::TypeId::Id_EOrbits));
+
+  {
+  scope outer = 
   class_<Psana::Bld::BldDataPhaseCavity >("BldDataPhaseCavity", "PV names: UND:R02:IOC:16:BAT:FitTime1, UND:R02:IOC:16:BAT:FitTime2,\n                UND:R02:IOC:16:BAT:Charge1,  UND:R02:IOC:16:BAT:Charge2", no_init)
     .def("fitTime1", &Psana::Bld::BldDataPhaseCavity::fitTime1,"UND:R02:IOC:16:BAT:FitTime1 value in pico-seconds.")
     .def("fitTime2", &Psana::Bld::BldDataPhaseCavity::fitTime2,"UND:R02:IOC:16:BAT:FitTime2 value in pico-seconds.")
@@ -489,7 +502,7 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
-  class_<Psana::Bld::BldDataSpectrometerV1, boost::shared_ptr<Psana::Bld::BldDataSpectrometerV1>, boost::noncopyable >("BldDataSpectrometerV1", "Structure which contains image projections and fit parameters for spectrometers. \n	Changes from V0 include extending size of hproj, removal of vproj,\n	 and addition of fit parameters.", no_init)
+  class_<Psana::Bld::BldDataSpectrometerV1, boost::shared_ptr<Psana::Bld::BldDataSpectrometerV1>, boost::noncopyable >("BldDataSpectrometerV1", "Structure which contains image projections and fit parameters for spectrometers. \n    Changes from V0 include extending size of hproj, removal of vproj,\n     and addition of fit parameters.", no_init)
     .def("width", &Psana::Bld::BldDataSpectrometerV1::width,"Width of camera frame and thus size of hproj array \n     PV TBD")
     .def("hproj_y1", &Psana::Bld::BldDataSpectrometerV1::hproj_y1,"First row of pixels used in projection ROI  \n     PV TBD")
     .def("hproj_y2", &Psana::Bld::BldDataSpectrometerV1::hproj_y2,"Last row of pixels used in projection ROI\n    PV: TBD")
@@ -535,6 +548,25 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   {
+    PyObject* unvlist = PyList_New(1);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataAcqADCV1"));
+    PyObject_SetAttrString(submodule, "BldDataAcqADC", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  {
+    PyObject* unvlist = PyList_New(1);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataEOrbitsV0"));
+    PyObject_SetAttrString(submodule, "BldDataEOrbits", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  {
+    PyObject* unvlist = PyList_New(2);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataIpimbV0"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "BldDataIpimbV1"));
+    PyObject_SetAttrString(submodule, "BldDataIpimb", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  {
     PyObject* unvlist = PyList_New(8);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataEBeamV0"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "BldDataEBeamV1"));
@@ -545,19 +577,6 @@ void createWrappers(PyObject* module) {
     PyList_SET_ITEM(unvlist, 6, PyObject_GetAttrString(submodule, "BldDataEBeamV6"));
     PyList_SET_ITEM(unvlist, 7, PyObject_GetAttrString(submodule, "BldDataEBeamV7"));
     PyObject_SetAttrString(submodule, "BldDataEBeam", unvlist);
-    Py_CLEAR(unvlist);
-  }
-  {
-    PyObject* unvlist = PyList_New(1);
-    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataAcqADCV1"));
-    PyObject_SetAttrString(submodule, "BldDataAcqADC", unvlist);
-    Py_CLEAR(unvlist);
-  }
-  {
-    PyObject* unvlist = PyList_New(2);
-    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataIpimbV0"));
-    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "BldDataIpimbV1"));
-    PyObject_SetAttrString(submodule, "BldDataIpimb", unvlist);
     Py_CLEAR(unvlist);
   }
   {
