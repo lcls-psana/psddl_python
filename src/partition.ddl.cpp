@@ -50,12 +50,32 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Partition::ConfigV1> >(Pds::TypeId::Id_PartitionConfig));
 
   {
-    PyObject* unvlist = PyList_New(1);
+  scope outer = 
+  class_<Psana::Partition::ConfigV2, boost::shared_ptr<Psana::Partition::ConfigV2>, boost::noncopyable >("ConfigV2", no_init)
+    .def("numWords", &Psana::Partition::ConfigV2::numWords,"Number of words for the bit mask")
+    .def("numSources", &Psana::Partition::ConfigV2::numSources,"Number of source definitions")
+    .def("bldMask", &Psana::Partition::ConfigV2::bldMask,"Mask of requested BLD")
+    .def("sources", &Psana::Partition::ConfigV2::sources,"Source configuration objects")
+    .def("numBldMaskBits", &Psana::Partition::ConfigV2::numBldMaskBits,"Returns the total number of bits in the mask")
+    .def("bldMaskIsZero", &Psana::Partition::ConfigV2::bldMaskIsZero,"Returns non-zero if all bits in the mask are unset, zero otherwise.")
+    .def("bldMaskIsNotZero", &Psana::Partition::ConfigV2::bldMaskIsNotZero,"Returns non-zero if any bits in the mask are set, zero otherwise.")
+    .def("bldMaskHasBitSet", &Psana::Partition::ConfigV2::bldMaskHasBitSet,"Returns non-zero if the bit cooresponding to iBit in the word is set, zero otherwise.")
+    .def("bldMaskHasBitClear", &Psana::Partition::ConfigV2::bldMaskHasBitClear,"Returns non-zero if the bit cooresponding to iBit in the word is unset, zero otherwise.")
+  ;
+  scope().attr("Version")=2;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_PartitionConfig);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Partition::ConfigV2> >(Pds::TypeId::Id_PartitionConfig));
+
+  {
+    PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
   detail::register_ndarray_to_list_cvt<const Psana::Partition::Source>();
+  detail::register_ndarray_to_numpy_cvt<const uint32_t, 1>();
 
 } // createWrappers()
 } // namespace Partition
