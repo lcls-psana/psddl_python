@@ -427,6 +427,19 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::Bld::BldDataUsdUsbV1, boost::shared_ptr<Psana::Bld::BldDataUsdUsbV1>, boost::noncopyable >("BldDataUsdUsbV1", "Combined structure which includes UsdUsb.ConfigV1, UsdUsb.FexConfigV1, UsdUsb.DataV1, and\n            UsdUsb.FexDataV1 objects.", no_init)
+    .def("config", &Psana::Bld::BldDataUsdUsbV1::config, return_internal_reference<1>())
+    .def("fexConfig", &Psana::Bld::BldDataUsdUsbV1::fexConfig, return_internal_reference<1>())
+    .def("data", &Psana::Bld::BldDataUsdUsbV1::data, return_internal_reference<1>())
+    .def("fexData", &Psana::Bld::BldDataUsdUsbV1::fexData, return_internal_reference<1>())
+  ;
+  scope().attr("Version")=1;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_SharedUsdUsb);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Bld::BldDataUsdUsbV1> >(Pds::TypeId::Id_SharedUsdUsb));
+
+  {
+  scope outer = 
   class_<Psana::Bld::BldDataGMDV0, boost::shared_ptr<Psana::Bld::BldDataGMDV0>, boost::noncopyable >("BldDataGMDV0", "Gas Monitor Detector data.", no_init)
     .def("gasType", &Psana::Bld::BldDataGMDV0::gasType,"String describing gas type")
     .def("pressure", &Psana::Bld::BldDataGMDV0::pressure,"Pressure from Spinning Rotor Gauge")
@@ -533,6 +546,22 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Bld::BldDataAnalogInputV1> >(Pds::TypeId::Id_AnalogInput));
 
   {
+  scope outer = 
+  class_<Psana::Bld::BldDataBeamMonitorV1, boost::shared_ptr<Psana::Bld::BldDataBeamMonitorV1>, boost::noncopyable >("BldDataBeamMonitorV1", "Intensity and Position Measurements", no_init)
+    .def("TotalIntensity", &Psana::Bld::BldDataBeamMonitorV1::TotalIntensity,"Value of Total Intensity, in J.")
+    .def("X_Position", &Psana::Bld::BldDataBeamMonitorV1::X_Position,"Value of X Position, in m.")
+    .def("Y_Position", &Psana::Bld::BldDataBeamMonitorV1::Y_Position,"Value of Y Position, in m.")
+    .def("peakA", &Psana::Bld::BldDataBeamMonitorV1::peakA,"Peak Amplitude of Channel")
+    .def("peakT", &Psana::Bld::BldDataBeamMonitorV1::peakT,"Location of Peak Amplitude of Channel")
+    .def("Channel_Intensity", &Psana::Bld::BldDataBeamMonitorV1::Channel_Intensity,"Value of Channel Intensity, in J.")
+  ;
+  scope().attr("Version")=1;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_BeamMonitorBldData);
+  scope().attr("NCHANNELS")=16;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Bld::BldDataBeamMonitorV1> >(Pds::TypeId::Id_BeamMonitorBldData));
+
+  {
     PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataSpectrometerV0"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "BldDataSpectrometerV1"));
@@ -557,6 +586,12 @@ void createWrappers(PyObject* module) {
     PyObject* unvlist = PyList_New(1);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataEOrbitsV0"));
     PyObject_SetAttrString(submodule, "BldDataEOrbits", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  {
+    PyObject* unvlist = PyList_New(1);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataUsdUsbV1"));
+    PyObject_SetAttrString(submodule, "BldDataUsdUsb", unvlist);
     Py_CLEAR(unvlist);
   }
   {
@@ -589,6 +624,12 @@ void createWrappers(PyObject* module) {
     PyObject* unvlist = PyList_New(1);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataPimV1"));
     PyObject_SetAttrString(submodule, "BldDataPim", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  {
+    PyObject* unvlist = PyList_New(1);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "BldDataBeamMonitorV1"));
+    PyObject_SetAttrString(submodule, "BldDataBeamMonitor", unvlist);
     Py_CLEAR(unvlist);
   }
   detail::register_ndarray_to_numpy_cvt<const uint32_t, 1>();
