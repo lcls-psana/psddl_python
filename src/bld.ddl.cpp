@@ -553,7 +553,6 @@ void createWrappers(PyObject* module) {
     .def("Y_Position", &Psana::Bld::BldDataBeamMonitorV1::Y_Position,"Value of Y Position, in m.")
     .def("peakA", &Psana::Bld::BldDataBeamMonitorV1::peakA,"Peak Amplitude of Channel")
     .def("peakT", &Psana::Bld::BldDataBeamMonitorV1::peakT,"Location of Peak Amplitude of Channel")
-    .def("Channel_Intensity", &Psana::Bld::BldDataBeamMonitorV1::Channel_Intensity,"Value of Channel Intensity, in J.")
   ;
   scope().attr("Version")=1;
   scope().attr("TypeId")=int(Pds::TypeId::Id_BeamMonitorBldData);
@@ -633,6 +632,7 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   detail::register_ndarray_to_numpy_cvt<const uint32_t, 1>();
+  detail::register_ndarray_to_numpy_cvt<const uint16_t, 1>();
   detail::register_ndarray_to_numpy_cvt<const double, 1>();
   detail::register_ndarray_to_numpy_cvt<const int32_t, 1>();
 
