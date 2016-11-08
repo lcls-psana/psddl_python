@@ -109,6 +109,30 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Camera::TwoDGaussianV1> >(Pds::TypeId::Id_TwoDGaussian));
 
   {
+  scope outer = 
+  class_<Psana::Camera::ControlsCameraConfigV1, boost::shared_ptr<Psana::Camera::ControlsCameraConfigV1>, boost::noncopyable >("ControlsCameraConfigV1", "Class containing configuration data for cameras recorded by the controls recorder.", no_init)
+    .def("width", &Psana::Camera::ControlsCameraConfigV1::width,"Number of pixels in a row.")
+    .def("height", &Psana::Camera::ControlsCameraConfigV1::height,"Number of pixels in a column.")
+    .def("depth", &Psana::Camera::ControlsCameraConfigV1::depth,"Number of bits per pixel.")
+    .def("color_mode", &Psana::Camera::ControlsCameraConfigV1::color_mode,"The color mode of the camera.")
+    .def("exposure_time", &Psana::Camera::ControlsCameraConfigV1::exposure_time,"The configured exposure time of the camera in seconds.")
+    .def("gain", &Psana::Camera::ControlsCameraConfigV1::gain,"Camera gain value.")
+    .def("manufacturer", &Psana::Camera::ControlsCameraConfigV1::manufacturer,"The manufacturer of the camera.")
+    .def("model", &Psana::Camera::ControlsCameraConfigV1::model,"The model name of the camera.")
+  ;
+
+  enum_<Psana::Camera::ControlsCameraConfigV1::ColorMode>("ColorMode")
+    .value("Mono",Psana::Camera::ControlsCameraConfigV1::Mono)
+    .value("Bayer",Psana::Camera::ControlsCameraConfigV1::Bayer)
+    .value("RGB1",Psana::Camera::ControlsCameraConfigV1::RGB1)
+  ;
+  scope().attr("Version")=1;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_ControlsCameraConfig);
+  scope().attr("DESC_CHAR_MAX")=48;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Camera::ControlsCameraConfigV1> >(Pds::TypeId::Id_ControlsCameraConfig));
+
+  {
     PyObject* unvlist = PyList_New(1);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "FrameFexConfigV1"));
     PyObject_SetAttrString(submodule, "FrameFexConfig", unvlist);
@@ -118,6 +142,12 @@ void createWrappers(PyObject* module) {
     PyObject* unvlist = PyList_New(1);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "FrameV1"));
     PyObject_SetAttrString(submodule, "Frame", unvlist);
+    Py_CLEAR(unvlist);
+  }
+  {
+    PyObject* unvlist = PyList_New(1);
+    PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ControlsCameraConfigV1"));
+    PyObject_SetAttrString(submodule, "ControlsCameraConfig", unvlist);
     Py_CLEAR(unvlist);
   }
   {
