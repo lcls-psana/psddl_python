@@ -106,6 +106,16 @@ void createWrappers(PyObject* module) {
   }
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ConfigV2> >(Pds::TypeId::Id_JungfrauConfig));
 
+  class_<Psana::Jungfrau::ModuleInfoV1, boost::shared_ptr<Psana::Jungfrau::ModuleInfoV1>, boost::noncopyable >("ModuleInfoV1", no_init)
+    .def("timestamp", &Psana::Jungfrau::ModuleInfoV1::timestamp,"The camera timestamp associated with the detector frame in 100 ns ticks.")
+    .def("exposureTime", &Psana::Jungfrau::ModuleInfoV1::exposureTime,"The actual exposure time of the image in 100 ns ticks.")
+    .def("moduleID", &Psana::Jungfrau::ModuleInfoV1::moduleID,"The unique module ID number.")
+    .def("xCoord", &Psana::Jungfrau::ModuleInfoV1::xCoord,"The X coordinate in the complete detector system.")
+    .def("yCoord", &Psana::Jungfrau::ModuleInfoV1::yCoord,"The Y coordinate in the complete detector system.")
+    .def("zCoord", &Psana::Jungfrau::ModuleInfoV1::zCoord,"The Z coordinate in the complete detector system.")
+  ;
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ModuleInfoV1> >(-1));
+
   {
   scope outer = 
   class_<Psana::Jungfrau::ElementV1, boost::shared_ptr<Psana::Jungfrau::ElementV1>, boost::noncopyable >("ElementV1", no_init)
@@ -120,6 +130,21 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ElementV1> >(Pds::TypeId::Id_JungfrauElement));
 
   {
+  scope outer = 
+  class_<Psana::Jungfrau::ElementV2, boost::shared_ptr<Psana::Jungfrau::ElementV2>, boost::noncopyable >("ElementV2", no_init)
+    .def("frameNumber", &Psana::Jungfrau::ElementV2::frameNumber,"The internal frame counter number of the detector.")
+    .def("ticks", &Psana::Jungfrau::ElementV2::ticks,"The LCLS timing tick associated with the detector frame.")
+    .def("fiducials", &Psana::Jungfrau::ElementV2::fiducials,"The LCLS timing fiducial associated with the detector frame.")
+    .def("moduleInfo", &Psana::Jungfrau::ElementV2::moduleInfo, return_internal_reference<>(),"Information about each of the modules in the detector system.")
+    .def("frame", &Psana::Jungfrau::ElementV2::frame)
+    .def("moduleInfo_shape", &method_shape<Psana::Jungfrau::ElementV2, &Psana::Jungfrau::ElementV2::moduleInfo_shape>)
+  ;
+  scope().attr("Version")=2;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_JungfrauElement);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ElementV2> >(Pds::TypeId::Id_JungfrauElement));
+
+  {
     PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
@@ -127,8 +152,9 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(1);
+    PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ElementV1"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ElementV2"));
     PyObject_SetAttrString(submodule, "Element", unvlist);
     Py_CLEAR(unvlist);
   }
