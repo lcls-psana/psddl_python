@@ -31,6 +31,13 @@ void createWrappers(PyObject* module) {
   Py_INCREF(submodule);
   PyModule_AddObject(module, "Jungfrau", submodule);
   scope mod = object(handle<>(borrowed(submodule)));
+  class_<Psana::Jungfrau::ModuleConfigV1, boost::shared_ptr<Psana::Jungfrau::ModuleConfigV1>, boost::noncopyable >("ModuleConfigV1", no_init)
+    .def("serialNumber", &Psana::Jungfrau::ModuleConfigV1::serialNumber,"The module serial number.")
+    .def("moduleVersion", &Psana::Jungfrau::ModuleConfigV1::moduleVersion,"The version number of the module.")
+    .def("firmwareVersion", &Psana::Jungfrau::ModuleConfigV1::firmwareVersion,"The firmware version of the module.")
+  ;
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ModuleConfigV1> >(-1));
+
   {
   scope outer = 
   class_<Psana::Jungfrau::ConfigV1, boost::shared_ptr<Psana::Jungfrau::ConfigV1>, boost::noncopyable >("ConfigV1", no_init)
@@ -106,6 +113,53 @@ void createWrappers(PyObject* module) {
   }
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ConfigV2> >(Pds::TypeId::Id_JungfrauConfig));
 
+  {
+  scope outer = 
+  class_<Psana::Jungfrau::ConfigV3, boost::shared_ptr<Psana::Jungfrau::ConfigV3>, boost::noncopyable >("ConfigV3", no_init)
+    .def("numberOfModules", &Psana::Jungfrau::ConfigV3::numberOfModules,"The number of modules in a physical camera.")
+    .def("numberOfRowsPerModule", &Psana::Jungfrau::ConfigV3::numberOfRowsPerModule,"The number of rows per module.")
+    .def("numberOfColumnsPerModule", &Psana::Jungfrau::ConfigV3::numberOfColumnsPerModule,"The number of columns per module.")
+    .def("biasVoltage", &Psana::Jungfrau::ConfigV3::biasVoltage,"The bias applied to the sensor in volts.")
+    .def("gainMode", &Psana::Jungfrau::ConfigV3::gainMode,"The gain mode set for the camera.")
+    .def("speedMode", &Psana::Jungfrau::ConfigV3::speedMode,"The camera clock speed setting.")
+    .def("triggerDelay", &Psana::Jungfrau::ConfigV3::triggerDelay,"Internal delay from receiving a trigger input until the start of an acquisiton in seconds.")
+    .def("exposureTime", &Psana::Jungfrau::ConfigV3::exposureTime,"The exposure time in seconds.")
+    .def("exposurePeriod", &Psana::Jungfrau::ConfigV3::exposurePeriod,"The period between exposures of the camera. In triggered mode this should be smaller than the trigger period.")
+    .def("vb_ds", &Psana::Jungfrau::ConfigV3::vb_ds,"Value of vb_ds in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("vb_comp", &Psana::Jungfrau::ConfigV3::vb_comp,"Value of vb_comp in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("vb_pixbuf", &Psana::Jungfrau::ConfigV3::vb_pixbuf,"Value of vb_pixbuf in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("vref_ds", &Psana::Jungfrau::ConfigV3::vref_ds,"Value of vref_ds in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("vref_comp", &Psana::Jungfrau::ConfigV3::vref_comp,"Value of vref_comp in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("vref_prech", &Psana::Jungfrau::ConfigV3::vref_prech,"Value of vref_prech in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("vin_com", &Psana::Jungfrau::ConfigV3::vin_com,"Value of vin_com in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("vdd_prot", &Psana::Jungfrau::ConfigV3::vdd_prot,"Value of vdd_prot in bits. 12bit on 0 to 2.5V (i.e. 2.5V = 4096).")
+    .def("moduleConfig", &Psana::Jungfrau::ConfigV3::moduleConfig, return_internal_reference<>(),"Module specific configuration information for each of the modules in the detector system.")
+    .def("frameSize", &Psana::Jungfrau::ConfigV3::frameSize,"Total size in bytes of the Frame object")
+    .def("numPixels", &Psana::Jungfrau::ConfigV3::numPixels,"calculate total frame size in pixels based on the current ROI and binning settings")
+    .def("moduleConfig_shape", &method_shape<Psana::Jungfrau::ConfigV3, &Psana::Jungfrau::ConfigV3::moduleConfig_shape>)
+  ;
+
+  enum_<Psana::Jungfrau::ConfigV3::GainMode>("GainMode")
+    .value("Normal",Psana::Jungfrau::ConfigV3::Normal)
+    .value("FixedGain1",Psana::Jungfrau::ConfigV3::FixedGain1)
+    .value("FixedGain2",Psana::Jungfrau::ConfigV3::FixedGain2)
+    .value("ForcedGain1",Psana::Jungfrau::ConfigV3::ForcedGain1)
+    .value("ForcedGain2",Psana::Jungfrau::ConfigV3::ForcedGain2)
+    .value("HighGain0",Psana::Jungfrau::ConfigV3::HighGain0)
+  ;
+
+  enum_<Psana::Jungfrau::ConfigV3::SpeedMode>("SpeedMode")
+    .value("Quarter",Psana::Jungfrau::ConfigV3::Quarter)
+    .value("Half",Psana::Jungfrau::ConfigV3::Half)
+  ;
+  scope().attr("Version")=3;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_JungfrauConfig);
+  scope().attr("MaxModulesPerDetector")=8;
+  scope().attr("MaxRowsPerModule")=512;
+  scope().attr("MaxColumnsPerModule")=1024;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ConfigV3> >(Pds::TypeId::Id_JungfrauConfig));
+
   class_<Psana::Jungfrau::ModuleInfoV1, boost::shared_ptr<Psana::Jungfrau::ModuleInfoV1>, boost::noncopyable >("ModuleInfoV1", no_init)
     .def("timestamp", &Psana::Jungfrau::ModuleInfoV1::timestamp,"The camera timestamp associated with the detector frame in 100 ns ticks.")
     .def("exposureTime", &Psana::Jungfrau::ModuleInfoV1::exposureTime,"The actual exposure time of the image in 100 ns ticks.")
@@ -145,9 +199,10 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Jungfrau::ElementV2> >(Pds::TypeId::Id_JungfrauElement));
 
   {
-    PyObject* unvlist = PyList_New(2);
+    PyObject* unvlist = PyList_New(3);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
+    PyList_SET_ITEM(unvlist, 2, PyObject_GetAttrString(submodule, "ConfigV3"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
