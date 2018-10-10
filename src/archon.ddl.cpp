@@ -81,8 +81,46 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Archon::ConfigV1> >(Pds::TypeId::Id_ArchonConfig));
 
   {
-    PyObject* unvlist = PyList_New(1);
+  scope outer = 
+  class_<Psana::Archon::ConfigV2, boost::shared_ptr<Psana::Archon::ConfigV2>, boost::noncopyable >("ConfigV2", "Class containing configuration data for CCDs using the Archon controller.", no_init)
+    .def("readoutMode", &Psana::Archon::ConfigV2::readoutMode,"Readout mode of the camera, a.k.a. software vs hardware triggered.")
+    .def("exposureEventCode", &Psana::Archon::ConfigV2::exposureEventCode,"The event code to use for exposure when software triggering the camera.")
+    .def("configSize", &Psana::Archon::ConfigV2::configSize,"The size of the acf file portion of the configuration.")
+    .def("preFrameSweepCount", &Psana::Archon::ConfigV2::preFrameSweepCount,"The count of lines to sweep before beginning a frame.")
+    .def("idleSweepCount", &Psana::Archon::ConfigV2::idleSweepCount,"The number of lines to sweep per cycle when waiting for triggers.")
+    .def("integrationTime", &Psana::Archon::ConfigV2::integrationTime,"The time (ms) to expose the sensor.")
+    .def("nonIntegrationTime", &Psana::Archon::ConfigV2::nonIntegrationTime,"The time (ms) to wait after exposing the sensor before reading it out.")
+    .def("batches", &Psana::Archon::ConfigV2::batches,"The number of frames to batch together for readout.")
+    .def("pixels", &Psana::Archon::ConfigV2::pixels,"The number of pixels to readout from each tap.")
+    .def("lines", &Psana::Archon::ConfigV2::lines,"The number of lines to readout from each tap.")
+    .def("horizontalBinning", &Psana::Archon::ConfigV2::horizontalBinning,"The horizontal binning setting.")
+    .def("verticalBinning", &Psana::Archon::ConfigV2::verticalBinning,"The vertical binning setting.")
+    .def("sensorPixels", &Psana::Archon::ConfigV2::sensorPixels,"Number of actual pixels per tap.")
+    .def("sensorLines", &Psana::Archon::ConfigV2::sensorLines,"Number of actual lines per tap.")
+    .def("sensorTaps", &Psana::Archon::ConfigV2::sensorTaps,"Number of taps for the sensor.")
+    .def("st", &Psana::Archon::ConfigV2::st)
+    .def("stm1", &Psana::Archon::ConfigV2::stm1)
+    .def("at", &Psana::Archon::ConfigV2::at)
+    .def("config", &Psana::Archon::ConfigV2::config,"The contents of the acf file to use with the camera.")
+    .def("config_shape", &method_shape<Psana::Archon::ConfigV2, &Psana::Archon::ConfigV2::config_shape>)
+  ;
+
+  enum_<Psana::Archon::ConfigV2::ReadoutMode>("ReadoutMode")
+    .value("Single",Psana::Archon::ConfigV2::Single)
+    .value("Continuous",Psana::Archon::ConfigV2::Continuous)
+    .value("Triggered",Psana::Archon::ConfigV2::Triggered)
+  ;
+  scope().attr("Version")=2;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_ArchonConfig);
+  scope().attr("MaxConfigLines")=1<<14;
+  scope().attr("MaxConfigLineLength")=2048;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Archon::ConfigV2> >(Pds::TypeId::Id_ArchonConfig));
+
+  {
+    PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }

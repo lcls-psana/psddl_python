@@ -45,6 +45,7 @@ void createWrappers(PyObject* module) {
     .def("readOnlyPots", &Psana::Uxi::ConfigV1::readOnlyPots,"Bitmask to designate which pots should only be read and not written.")
     .def("pots", &Psana::Uxi::ConfigV1::pots,"The values of the each of the pots in volts.")
     .def("potIsReadOnly", &Psana::Uxi::ConfigV1::potIsReadOnly,"Check if a pot is readonly.")
+    .def("potIsTuned", &Psana::Uxi::ConfigV1::potIsTuned,"Check if a pot was tuned.")
     .def("numPixelsPerFrame", &Psana::Uxi::ConfigV1::numPixelsPerFrame,"calculate total number of pixels per frame.")
     .def("numPixels", &Psana::Uxi::ConfigV1::numPixels,"calculate total number of pixels across all frames.")
     .def("frameSize", &Psana::Uxi::ConfigV1::frameSize,"Total size in bytes of the frame")
