@@ -42,6 +42,13 @@ void createWrappers(PyObject* module) {
     .def("darkFlag", &Psana::Rayonix::ConfigV1::darkFlag)
     .def("readoutMode", &Psana::Rayonix::ConfigV1::readoutMode)
     .def("deviceID", &Psana::Rayonix::ConfigV1::deviceID)
+    .def("pixelWidth", &Psana::Rayonix::ConfigV1::pixelWidth,"The width of the pixels in um.")
+    .def("pixelHeight", &Psana::Rayonix::ConfigV1::pixelHeight,"The height of the pixels in um.")
+    .def("maxWidth", &Psana::Rayonix::ConfigV1::maxWidth,"Returns the maximum possible width in pixels (a.k.a unbinned).")
+    .def("maxHeight", &Psana::Rayonix::ConfigV1::maxHeight,"Returns the maximum possible height in pixels (a.k.a unbinned).")
+    .def("width", &Psana::Rayonix::ConfigV1::width,"Calculate the frame width in pixels based on the max number of pixels and the binning.")
+    .def("height", &Psana::Rayonix::ConfigV1::height,"Calculate the frame height in pixels based on the max number of pixels and the binning.")
+    .def("numPixels", &Psana::Rayonix::ConfigV1::numPixels,"calculate total frame size in pixels.")
   ;
 
   enum_<Psana::Rayonix::ConfigV1::ReadoutMode>("ReadoutMode")
@@ -52,6 +59,9 @@ void createWrappers(PyObject* module) {
   ;
   scope().attr("Version")=1;
   scope().attr("TypeId")=int(Pds::TypeId::Id_RayonixConfig);
+  scope().attr("Row_Pixels")=3840;
+  scope().attr("Column_Pixels")=3840;
+  scope().attr("BasePixelSize")=44;
   scope().attr("DeviceIDMax")=40;
   }
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Rayonix::ConfigV1> >(Pds::TypeId::Id_RayonixConfig));
@@ -68,6 +78,13 @@ void createWrappers(PyObject* module) {
     .def("darkFlag", &Psana::Rayonix::ConfigV2::darkFlag)
     .def("readoutMode", &Psana::Rayonix::ConfigV2::readoutMode)
     .def("deviceID", &Psana::Rayonix::ConfigV2::deviceID)
+    .def("pixelWidth", &Psana::Rayonix::ConfigV2::pixelWidth,"The width of the pixels in um.")
+    .def("pixelHeight", &Psana::Rayonix::ConfigV2::pixelHeight,"The height of the pixels in um.")
+    .def("maxWidth", &Psana::Rayonix::ConfigV2::maxWidth,"Returns the maximum possible width in pixels (a.k.a unbinned).")
+    .def("maxHeight", &Psana::Rayonix::ConfigV2::maxHeight,"Returns the maximum possible height in pixels (a.k.a unbinned).")
+    .def("width", &Psana::Rayonix::ConfigV2::width,"Calculate the frame width in pixels based on the max number of pixels and the binning.")
+    .def("height", &Psana::Rayonix::ConfigV2::height,"Calculate the frame height in pixels based on the max number of pixels and the binning.")
+    .def("numPixels", &Psana::Rayonix::ConfigV2::numPixels,"calculate total frame size in pixels.")
   ;
 
   enum_<Psana::Rayonix::ConfigV2::ReadoutMode>("ReadoutMode")
@@ -79,6 +96,11 @@ void createWrappers(PyObject* module) {
   ;
   scope().attr("Version")=2;
   scope().attr("TypeId")=int(Pds::TypeId::Id_RayonixConfig);
+  scope().attr("MX340HS_Row_Pixels")=7680;
+  scope().attr("MX340HS_Column_Pixels")=7680;
+  scope().attr("MX170HS_Row_Pixels")=3840;
+  scope().attr("MX170HS_Column_Pixels")=3840;
+  scope().attr("BasePixelSize")=44;
   scope().attr("DeviceIDMax")=40;
   }
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Rayonix::ConfigV2> >(Pds::TypeId::Id_RayonixConfig));

@@ -118,9 +118,70 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Archon::ConfigV2> >(Pds::TypeId::Id_ArchonConfig));
 
   {
-    PyObject* unvlist = PyList_New(2);
+  scope outer = 
+  class_<Psana::Archon::ConfigV3, boost::shared_ptr<Psana::Archon::ConfigV3>, boost::noncopyable >("ConfigV3", no_init)
+    .def("readoutMode", &Psana::Archon::ConfigV3::readoutMode,"Readout mode of the camera, a.k.a. software vs hardware triggered.")
+    .def("power", &Psana::Archon::ConfigV3::power,"The state of the ccd power, a.k.a off vs on.")
+    .def("exposureEventCode", &Psana::Archon::ConfigV3::exposureEventCode,"The event code to use for exposure when software triggering the camera.")
+    .def("configSize", &Psana::Archon::ConfigV3::configSize,"The size of the acf file portion of the configuration.")
+    .def("preFrameSweepCount", &Psana::Archon::ConfigV3::preFrameSweepCount,"The count of lines to sweep before beginning a frame.")
+    .def("idleSweepCount", &Psana::Archon::ConfigV3::idleSweepCount,"The number of lines to sweep per cycle when waiting for triggers.")
+    .def("integrationTime", &Psana::Archon::ConfigV3::integrationTime,"The time (ms) to expose the sensor.")
+    .def("nonIntegrationTime", &Psana::Archon::ConfigV3::nonIntegrationTime,"The time (ms) to wait after exposing the sensor before reading it out.")
+    .def("batches", &Psana::Archon::ConfigV3::batches,"The number of frames to batch together for readout.")
+    .def("pixels", &Psana::Archon::ConfigV3::pixels,"The number of pixels to readout from each tap.")
+    .def("lines", &Psana::Archon::ConfigV3::lines,"The number of lines to readout from each tap.")
+    .def("horizontalBinning", &Psana::Archon::ConfigV3::horizontalBinning,"The horizontal binning setting.")
+    .def("verticalBinning", &Psana::Archon::ConfigV3::verticalBinning,"The vertical binning setting.")
+    .def("sensorPixels", &Psana::Archon::ConfigV3::sensorPixels,"Number of actual pixels per tap.")
+    .def("sensorLines", &Psana::Archon::ConfigV3::sensorLines,"Number of actual lines per tap.")
+    .def("sensorTaps", &Psana::Archon::ConfigV3::sensorTaps,"Number of taps for the sensor.")
+    .def("st", &Psana::Archon::ConfigV3::st)
+    .def("stm1", &Psana::Archon::ConfigV3::stm1)
+    .def("at", &Psana::Archon::ConfigV3::at)
+    .def("bias", &Psana::Archon::ConfigV3::bias,"The state of the ccd bias voltage, a.k.a off vs on.")
+    .def("biasChan", &Psana::Archon::ConfigV3::biasChan,"The channel ID of the bias voltage.")
+    .def("biasVoltage", &Psana::Archon::ConfigV3::biasVoltage,"The bias voltage setpoint.")
+    .def("configVersion", &Psana::Archon::ConfigV3::configVersion,"Version tag for the attached acf file.")
+    .def("config", &Psana::Archon::ConfigV3::config,"The contents of the acf file to use with the camera.")
+    .def("numPixelsX", &Psana::Archon::ConfigV3::numPixelsX,"Calculate the frame X size in pixels based on the number of pixels per tap and the number of taps.")
+    .def("numPixelsY", &Psana::Archon::ConfigV3::numPixelsY,"calculate frame Y size in pixels based on the number of lines per tap.")
+    .def("numPixels", &Psana::Archon::ConfigV3::numPixels,"calculate total frame size in pixels.")
+    .def("config_shape", &method_shape<Psana::Archon::ConfigV3, &Psana::Archon::ConfigV3::config_shape>)
+  ;
+
+  enum_<Psana::Archon::ConfigV3::ReadoutMode>("ReadoutMode")
+    .value("FreeRun",Psana::Archon::ConfigV3::FreeRun)
+    .value("Triggered",Psana::Archon::ConfigV3::Triggered)
+  ;
+
+  enum_<Psana::Archon::ConfigV3::Switch>("Switch")
+    .value("Off",Psana::Archon::ConfigV3::Off)
+    .value("On",Psana::Archon::ConfigV3::On)
+  ;
+
+  enum_<Psana::Archon::ConfigV3::BiasChannelId>("BiasChannelId")
+    .value("NV4",Psana::Archon::ConfigV3::NV4)
+    .value("NV3",Psana::Archon::ConfigV3::NV3)
+    .value("NV2",Psana::Archon::ConfigV3::NV2)
+    .value("NV1",Psana::Archon::ConfigV3::NV1)
+    .value("PV1",Psana::Archon::ConfigV3::PV1)
+    .value("PV2",Psana::Archon::ConfigV3::PV2)
+    .value("PV3",Psana::Archon::ConfigV3::PV3)
+    .value("PV4",Psana::Archon::ConfigV3::PV4)
+  ;
+  scope().attr("Version")=3;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_ArchonConfig);
+  scope().attr("MaxConfigLines")=1<<14;
+  scope().attr("MaxConfigLineLength")=2048;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Archon::ConfigV3> >(Pds::TypeId::Id_ArchonConfig));
+
+  {
+    PyObject* unvlist = PyList_New(3);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
+    PyList_SET_ITEM(unvlist, 2, PyObject_GetAttrString(submodule, "ConfigV3"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
