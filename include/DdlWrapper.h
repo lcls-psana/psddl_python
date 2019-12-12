@@ -10,6 +10,29 @@
 #include "ndarray/ndarray.h"
 #include "psddl_python/psddl_python_numpy.h"
 
+#if PY_MAJOR_VERSION >= 3
+#define IS_PY3K
+#endif
+
+#ifdef IS_PY3K
+#define DDL_CREATE_MODULE(m_name, m_methods, m_doc) \
+  static struct PyModuleDef moduledef = { \
+    PyModuleDef_HEAD_INIT, \
+    "(m_name)",\
+    "(m_doc)", \
+    -1,                  \
+    (m_methods),                    \
+    NULL,                 \
+    NULL,                 \
+    NULL,                \
+    NULL,                \
+  }; \
+  PyObject* submodule = PyModule_Create(&moduledef)
+#else
+#define DDL_CREATE_MODULE(m_name, m_methods, m_doc) \
+  PyObject* submodule = Py_InitModule3( "(m_name)", (m_methods), "(m_doc)")
+#endif
+
 namespace psddl_python {
 namespace detail {
 
@@ -32,7 +55,11 @@ PyObject*
 vintToList(const std::vector<int>& v) {
   PyObject* res = PyList_New(v.size());
   for (size_t i = 0; i != v.size(); ++ i) {
+#ifdef IS_PY3K
+    PyList_SET_ITEM(res, i, PyLong_FromLong(v[i]));
+#else
     PyList_SET_ITEM(res, i, PyInt_FromLong(v[i]));
+#endif
   }
   return res;
 }
@@ -69,7 +96,11 @@ ndToNumpy(const ndarray<const T, NDim>& array, const boost::shared_ptr<U>& owner
     // deep copy array data
     *copy = copy->copy();
   }
+#ifdef IS_PY3K
+  PyObject* ndarr = PyCapsule_New(static_cast<void*>(copy), NULL, (PyCapsule_Destructor)_ndarray_dtor<T, NDim>);
+#else
   PyObject* ndarr = PyCObject_FromVoidPtr(static_cast<void*>(copy), _ndarray_dtor<T, NDim>);
+#endif
 
   // now make numpy array
   const unsigned* shape = copy->shape();
@@ -86,7 +117,7 @@ ndToNumpy(const ndarray<const T, NDim>& array, const boost::shared_ptr<U>& owner
 
   // set flags to be non-writeable
   PyArray_FLAGS(nparr) &= ~NPY_WRITEABLE;
-  
+
   return nparr;
 }
 
