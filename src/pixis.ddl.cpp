@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.Pixis", 0, "The Python wrapper module for Pixis types");
+  DDL_CREATE_MODULE( "psana.Pixis", 0, "The Python wrapper module for Pixis types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "Pixis", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

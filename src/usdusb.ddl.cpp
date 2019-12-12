@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.UsdUsb", 0, "The Python wrapper module for UsdUsb types");
+  DDL_CREATE_MODULE( "psana.UsdUsb", 0, "The Python wrapper module for UsdUsb types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "UsdUsb", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

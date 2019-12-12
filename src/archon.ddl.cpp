@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.Archon", 0, "The Python wrapper module for Archon types");
+  DDL_CREATE_MODULE( "psana.Archon", 0, "The Python wrapper module for Archon types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "Archon", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

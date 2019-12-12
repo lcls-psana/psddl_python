@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.PNCCD", 0, "The Python wrapper module for PNCCD types");
+  DDL_CREATE_MODULE( "psana.PNCCD", 0, "The Python wrapper module for PNCCD types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "PNCCD", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

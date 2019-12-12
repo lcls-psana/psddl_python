@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.CsPad2x2", 0, "The Python wrapper module for CsPad2x2 types");
+  DDL_CREATE_MODULE( "psana.CsPad2x2", 0, "The Python wrapper module for CsPad2x2 types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "CsPad2x2", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

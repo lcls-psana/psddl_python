@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.Camera", 0, "The Python wrapper module for Camera types");
+  DDL_CREATE_MODULE( "psana.Camera", 0, "The Python wrapper module for Camera types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "Camera", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

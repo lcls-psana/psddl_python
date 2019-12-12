@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.SmlData", 0, "The Python wrapper module for SmlData types");
+  DDL_CREATE_MODULE( "psana.SmlData", 0, "The Python wrapper module for SmlData types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "SmlData", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

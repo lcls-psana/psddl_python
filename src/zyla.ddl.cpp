@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.Zyla", 0, "The Python wrapper module for Zyla types");
+  DDL_CREATE_MODULE( "psana.Zyla", 0, "The Python wrapper module for Zyla types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "Zyla", submodule);
   scope mod = object(handle<>(borrowed(submodule)));

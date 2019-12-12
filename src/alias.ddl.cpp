@@ -27,7 +27,7 @@ PyObject* method_shape(const T *x) {
 } // namespace
 
 void createWrappers(PyObject* module) {
-  PyObject* submodule = Py_InitModule3( "psana.Alias", 0, "The Python wrapper module for Alias types");
+  DDL_CREATE_MODULE( "psana.Alias", 0, "The Python wrapper module for Alias types");
   Py_INCREF(submodule);
   PyModule_AddObject(module, "Alias", submodule);
   scope mod = object(handle<>(borrowed(submodule)));
