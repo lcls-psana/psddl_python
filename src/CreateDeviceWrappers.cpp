@@ -2,6 +2,10 @@
 
 #include <boost/python.hpp>
 
+#if PY_MAJOR_VERSION >= 3
+#define IS_PY3K
+#endif
+
 #define PSDDL_PYTHON_IMPORT_ARRAY 1
 #include "psddl_python/psddl_python_numpy.h"
 
@@ -18,7 +22,12 @@ void createDeviceWrappers(PyObject* module) {
 
   // import numpy
   _import_array();
-  boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
+#ifdef IS_PY3K
+  // Not available in py3
+  //boost::python::numpy::array::set_module_and_type("numpy", "ndarray");
+#else
+  boost::python::numpy::array::set_module_and_type("numpy", "ndarray");
+#endif
 
 #undef DECL
 #define DECL(ns) psddl_python::ns::createWrappers(module);
