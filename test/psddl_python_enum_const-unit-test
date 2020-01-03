@@ -1,8 +1,8 @@
 #!@PYTHON@
 #--------------------------------------------------------------------------
 # Description:
-#   Test script for enum/constant access in psddl_python module.  
-#   
+#   Test script for enum/constant access in psddl_python module.
+#
 #------------------------------------------------------------------------
 
 
@@ -24,22 +24,22 @@ import psana
 class psddl_python_enum_const_unit_test ( unittest.TestCase ) :
 
     def setUp(self) :
-    	""" 
-    	Method called to prepare the test fixture. This is called immediately 
-    	before calling the test method; any exception raised by this method 
-    	will be considered an error rather than a test failure.  
-    	"""
+        """
+        Method called to prepare the test fixture. This is called immediately
+        before calling the test method; any exception raised by this method
+        will be considered an error rather than a test failure.
+        """
         pass
-    
+
     def tearDown(self) :
         """
-        Method called immediately after the test method has been called and 
-        the result recorded. This is called even if the test method raised 
-        an exception, so the implementation in subclasses may need to be 
-        particularly careful about checking internal state. Any exception raised 
-        by this method will be considered an error rather than a test failure. 
-        This method will only be called if the setUp() succeeds, regardless 
-        of the outcome of the test method. 
+        Method called immediately after the test method has been called and
+        the result recorded. This is called even if the test method raised
+        an exception, so the implementation in subclasses may need to be
+        particularly careful about checking internal state. Any exception raised
+        by this method will be considered an error rather than a test failure.
+        This method will only be called if the setUp() succeeds, regardless
+        of the outcome of the test method.
         """
         pass
 
@@ -64,7 +64,7 @@ class psddl_python_enum_const_unit_test ( unittest.TestCase ) :
         self.assertEqual(psana.Timepix.ConfigV1.TriggerMode.TriggerMode_Soft,2)
         self.assertEqual(str(psana.Timepix.ConfigV1.TriggerMode.TriggerMode_Soft),'TriggerMode_Soft')
         self.assertEqual(psana.Timepix.ConfigV1.ChipCount,4)
-        
+
         self.assertEqual(psana.Timepix.ConfigV2.ReadoutSpeed.ReadoutSpeed_Slow,0)
         self.assertEqual(str(psana.Timepix.ConfigV2.ReadoutSpeed.ReadoutSpeed_Slow),'ReadoutSpeed_Slow')
         self.assertEqual(psana.Timepix.ConfigV2.ReadoutSpeed.ReadoutSpeed_Fast,1)
@@ -131,21 +131,21 @@ class psddl_python_enum_const_unit_test ( unittest.TestCase ) :
         self.assertEqual(psana.Encoder.ConfigV1.count_mode_type.LIMIT,1)
         self.assertEqual(psana.Encoder.ConfigV1.count_mode_type.HALT,2)
         self.assertEqual(psana.Encoder.ConfigV1.count_mode_type.WRAP_PRESET,3)
-        self.assertEqual(psana.Encoder.ConfigV1.count_mode_type.COUNT_END,4) 
+        self.assertEqual(psana.Encoder.ConfigV1.count_mode_type.COUNT_END,4)
 
         self.assertEqual(psana.Encoder.ConfigV2.count_mode_type.WRAP_FULL,0)
         self.assertEqual(psana.Encoder.ConfigV2.count_mode_type.LIMIT,1)
         self.assertEqual(psana.Encoder.ConfigV2.count_mode_type.HALT,2)
         self.assertEqual(psana.Encoder.ConfigV2.count_mode_type.WRAP_PRESET,3)
-        self.assertEqual(psana.Encoder.ConfigV2.count_mode_type.COUNT_END,4)  
+        self.assertEqual(psana.Encoder.ConfigV2.count_mode_type.COUNT_END,4)
 
     def test_Control_Enum_and_Constants(self):
-        self.assertEqual(psana.ControlData.PVControl.NameSize,32)  
-        self.assertEqual(psana.ControlData.PVControl.NoArray,0xFFFFFFFF)  
+        self.assertEqual(psana.ControlData.PVControl.NameSize,32)
+        self.assertEqual(psana.ControlData.PVControl.NoArray,0xFFFFFFFF)
 
-        self.assertEqual(psana.ControlData.PVLabel.NameSize,32)  
+        self.assertEqual(psana.ControlData.PVLabel.NameSize,32)
         self.assertEqual(psana.ControlData.PVLabel.ValueSize,64)
-    
+
     def test_Orca_Enum_and_Constants(self):
         self.assertEqual(psana.Orca.ConfigV1.ReadoutMode.x1,0)
         self.assertEqual(str(psana.Orca.ConfigV1.ReadoutMode.x1),'x1')
@@ -243,7 +243,7 @@ class psddl_python_enum_const_unit_test ( unittest.TestCase ) :
         self.assertEqual(str(psana.CsPad2x2.DataModes.testData),'testData')
         self.assertEqual(psana.CsPad2x2.DataModes.reserved,3)
         self.assertEqual(str(psana.CsPad2x2.DataModes.reserved),'reserved')
-        
+
     def test_Opal1k_Enum_and_Constants(self):
         self.assertEqual(psana.Opal1k.ConfigV1.Depth.Eight_bit,0)
         self.assertEqual(str(psana.Opal1k.ConfigV1.Depth.Eight_bit),'Eight_bit')
@@ -584,7 +584,7 @@ class psddl_python_enum_const_unit_test ( unittest.TestCase ) :
         self.assertEqual(str(psana.Ipimb.ConfigV1.CapacitorValue.c_10nF),"c_10nF")
 
         self.assertEqual(psana.Ipimb.ConfigV2.CapacitorValue.c_1pF, 0)
-        self.assertEqual(psana.Ipimb.ConfigV2.CapacitorValue.c_4p7pF,1) 
+        self.assertEqual(psana.Ipimb.ConfigV2.CapacitorValue.c_4p7pF,1)
         self.assertEqual(psana.Ipimb.ConfigV2.CapacitorValue.c_24pF, 2)
         self.assertEqual(psana.Ipimb.ConfigV2.CapacitorValue.c_120pF, 3)
         self.assertEqual(psana.Ipimb.ConfigV2.CapacitorValue.c_620pF, 4)
@@ -745,13 +745,13 @@ class psddl_python_enum_const_unit_test ( unittest.TestCase ) :
         self.assertEqual(str(psana.Epics.DbrTypes.DBR_CTRL_LONG),"DBR_CTRL_LONG")
         self.assertEqual(psana.Epics.DbrTypes.DBR_CTRL_DOUBLE,34)
         self.assertEqual(str(psana.Epics.DbrTypes.DBR_CTRL_DOUBLE),"DBR_CTRL_DOUBLE")
-       
+
     def test_Andor_Enum_and_Constants(self):
         self.assertEqual(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_FULL,0)
         self.assertEqual(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_LOW,1)
         self.assertEqual(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_OFF,2)
         self.assertEqual(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_ACQOFF,3)
-        self.assertEqual(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_NUM,4)        
+        self.assertEqual(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_NUM,4)
 
         self.assertEqual(str(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_FULL),"ENUM_FAN_FULL")
         self.assertEqual(str(psana.Andor.ConfigV1.EnumFanMode.ENUM_FAN_LOW),"ENUM_FAN_LOW")
@@ -786,7 +786,7 @@ class psddl_python_enum_const_unit_test ( unittest.TestCase ) :
         self.assertEqual(psana.Lusi.DiodeFexConfigV2.NRANGES,16)
         self.assertEqual(psana.Lusi.IpmFexConfigV1.NCHANNELS,4)
         self.assertEqual(psana.Lusi.IpmFexConfigV2.NCHANNELS,4)
-        
+
 #  run unit tests when imported as a main module
 #
 if __name__ == "__main__":
