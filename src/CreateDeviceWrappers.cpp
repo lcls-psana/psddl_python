@@ -26,7 +26,7 @@ void createDeviceWrappers(PyObject* module) {
   // Not available in py3
   //boost::python::numpy::array::set_module_and_type("numpy", "ndarray");
 #else
-  boost::python::numpy::array::set_module_and_type("numpy", "ndarray");
+  boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
 #endif
 
 #undef DECL
