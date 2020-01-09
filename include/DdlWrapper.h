@@ -81,7 +81,10 @@ ASSOCIATE_PYARRAYTYPE(double, PyArray_DOUBLE);
 template <typename T, unsigned NDim>
 void _ndarray_dtor(void* ptr)
 {
+#ifndef IS_PY3K
+  // this doesn't work on PY3 FIXME
   delete static_cast<ndarray<const T, NDim>*>(ptr);
+#endif
 }
 
 // convert ndarray of const elements to non-writeable numpy array
