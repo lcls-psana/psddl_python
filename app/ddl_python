@@ -25,7 +25,7 @@ if __name__ == "__main__":
     fout.write('\n'.join(declareMacros) + '\n')
     fout.close()
 
-    for pkg, subdict in pkgdict.iteritems():
+    for pkg, subdict in pkgdict.items():
         cmd = psddlCmdStart + ' -b python -I data -I psddl_psana -t psddl_python ' + \
               '-e psddl_python/include/' + pkg + '.ddl.h ' + \
               '-o psddl_python/src/' + pkg + '.ddl.cpp ' + subdict['ddlfile']
