@@ -81,8 +81,9 @@ ASSOCIATE_PYARRAYTYPE(double, PyArray_DOUBLE);
 template <typename T, unsigned NDim>
 void _ndarray_dtor(void* ptr)
 {
-#ifndef IS_PY3K
-  // this doesn't work on PY3 FIXME
+#ifdef IS_PY3K
+  delete static_cast<ndarray<const T, NDim>*>(PyCapsule_GetPointer((PyObject*)ptr, NULL));
+#else
   delete static_cast<ndarray<const T, NDim>*>(ptr);
 #endif
 }
