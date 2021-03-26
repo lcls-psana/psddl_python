@@ -391,6 +391,19 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::Bld::BldDataPhaseCavityV1 >("BldDataPhaseCavityV1", "PV names: UND:R02:IOC:16:BAT:FitTime1, UND:R02:IOC:16:BAT:FitTime2,\n                UND:R02:IOC:16:BAT:Charge1,  UND:R02:IOC:16:BAT:Charge2", no_init)
+    .def("fitTime1", &Psana::Bld::BldDataPhaseCavityV1::fitTime1,"UND:R02:IOC:16:BAT:FitTime1 value in pico-seconds.")
+    .def("fitTime2", &Psana::Bld::BldDataPhaseCavityV1::fitTime2,"UND:R02:IOC:16:BAT:FitTime2 value in pico-seconds.")
+    .def("charge1", &Psana::Bld::BldDataPhaseCavityV1::charge1,"UND:R02:IOC:16:BAT:Charge1 value in pico-columbs.")
+    .def("charge2", &Psana::Bld::BldDataPhaseCavityV1::charge2,"UND:R02:IOC:16:BAT:Charge2 value in pico-columbs.")
+  ;
+  scope().attr("Version")=1;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_PhaseCavity);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDef<Psana::Bld::BldDataPhaseCavityV1> >(Pds::TypeId::Id_PhaseCavity));
+
+  {
+  scope outer = 
   class_<Psana::Bld::BldDataIpimbV0, boost::shared_ptr<Psana::Bld::BldDataIpimbV0>, boost::noncopyable >("BldDataIpimbV0", "Combined structure which includes Ipimb.DataV1, Ipimb.ConfigV1, and\n            Lusi.IpmFexV1 objects.", no_init)
     .def("ipimbData", &Psana::Bld::BldDataIpimbV0::ipimbData, return_internal_reference<1>())
     .def("ipimbConfig", &Psana::Bld::BldDataIpimbV0::ipimbConfig, return_internal_reference<1>())

@@ -46,6 +46,19 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::ControlData::PVControlV1 >("PVControlV1", no_init)
+    .def("name", &Psana::ControlData::PVControlV1::name,"Name of the control.")
+    .def("index", &Psana::ControlData::PVControlV1::index,"Index of the control PV (for arrays) or NoArray.")
+    .def("value", &Psana::ControlData::PVControlV1::value,"Value for this control.")
+    .def("array", &Psana::ControlData::PVControlV1::array,"Returns true if the control is an array.")
+  ;
+  scope().attr("NameSize")=128;
+  scope().attr("NoArray")=0xFFFFFFFF;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDef<Psana::ControlData::PVControlV1> >(-1));
+
+  {
+  scope outer = 
   class_<Psana::ControlData::PVMonitor >("PVMonitor", no_init)
     .def("name", &Psana::ControlData::PVMonitor::name,"Name of the control.")
     .def("index", &Psana::ControlData::PVMonitor::index,"Index of the control PV (for arrays) or NoArray.")
@@ -60,6 +73,20 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::ControlData::PVMonitorV1 >("PVMonitorV1", no_init)
+    .def("name", &Psana::ControlData::PVMonitorV1::name,"Name of the control.")
+    .def("index", &Psana::ControlData::PVMonitorV1::index,"Index of the control PV (for arrays) or NoArray.")
+    .def("loValue", &Psana::ControlData::PVMonitorV1::loValue,"Lowest value for this monitor.")
+    .def("hiValue", &Psana::ControlData::PVMonitorV1::hiValue,"Highest value for this monitor.")
+    .def("array", &Psana::ControlData::PVMonitorV1::array,"Returns true if the monitor is an array.")
+  ;
+  scope().attr("NameSize")=128;
+  scope().attr("NoArray")=0xFFFFFFFF;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDef<Psana::ControlData::PVMonitorV1> >(-1));
+
+  {
+  scope outer = 
   class_<Psana::ControlData::PVLabel >("PVLabel", no_init)
     .def("name", &Psana::ControlData::PVLabel::name,"PV name.")
     .def("value", &Psana::ControlData::PVLabel::value,"Label value.")
@@ -68,6 +95,17 @@ void createWrappers(PyObject* module) {
   scope().attr("ValueSize")=64;
   }
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDef<Psana::ControlData::PVLabel> >(-1));
+
+  {
+  scope outer = 
+  class_<Psana::ControlData::PVLabelV1 >("PVLabelV1", no_init)
+    .def("name", &Psana::ControlData::PVLabelV1::name,"PV name.")
+    .def("value", &Psana::ControlData::PVLabelV1::value,"Label value.")
+  ;
+  scope().attr("NameSize")=128;
+  scope().attr("ValueSize")=256;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDef<Psana::ControlData::PVLabelV1> >(-1));
 
   {
   scope outer = 
@@ -126,16 +164,40 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::ControlData::ConfigV3> >(Pds::TypeId::Id_ControlConfig));
 
   {
-    PyObject* unvlist = PyList_New(3);
+  scope outer = 
+  class_<Psana::ControlData::ConfigV4, boost::shared_ptr<Psana::ControlData::ConfigV4>, boost::noncopyable >("ConfigV4", no_init)
+    .def("events", &Psana::ControlData::ConfigV4::events,"Maximum number of events per scan.")
+    .def("uses_l3t_events", &Psana::ControlData::ConfigV4::uses_l3t_events,"returns true if the configuration uses l3trigger events limit.")
+    .def("uses_duration", &Psana::ControlData::ConfigV4::uses_duration,"returns true if the configuration uses duration control.")
+    .def("uses_events", &Psana::ControlData::ConfigV4::uses_events,"returns true if the configuration uses events limit.")
+    .def("duration", &Psana::ControlData::ConfigV4::duration, return_value_policy<copy_const_reference>(),"Maximum duration of the scan.")
+    .def("npvControls", &Psana::ControlData::ConfigV4::npvControls,"Number of PVControl objects in this configuration.")
+    .def("npvMonitors", &Psana::ControlData::ConfigV4::npvMonitors,"Number of PVMonitor objects in this configuration.")
+    .def("npvLabels", &Psana::ControlData::ConfigV4::npvLabels,"Number of PVLabel objects in this configuration.")
+    .def("pvControls", &Psana::ControlData::ConfigV4::pvControls,"PVControl configuration objects")
+    .def("pvMonitors", &Psana::ControlData::ConfigV4::pvMonitors,"PVMonitor configuration objects")
+    .def("pvLabels", &Psana::ControlData::ConfigV4::pvLabels,"PVLabel configuration objects")
+  ;
+  scope().attr("Version")=4;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_ControlConfig);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::ControlData::ConfigV4> >(Pds::TypeId::Id_ControlConfig));
+
+  {
+    PyObject* unvlist = PyList_New(4);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
     PyList_SET_ITEM(unvlist, 2, PyObject_GetAttrString(submodule, "ConfigV3"));
+    PyList_SET_ITEM(unvlist, 3, PyObject_GetAttrString(submodule, "ConfigV4"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
-  detail::register_ndarray_to_list_cvt<const Psana::ControlData::PVLabel>();
+  detail::register_ndarray_to_list_cvt<const Psana::ControlData::PVLabelV1>();
   detail::register_ndarray_to_list_cvt<const Psana::ControlData::PVMonitor>();
   detail::register_ndarray_to_list_cvt<const Psana::ControlData::PVControl>();
+  detail::register_ndarray_to_list_cvt<const Psana::ControlData::PVLabel>();
+  detail::register_ndarray_to_list_cvt<const Psana::ControlData::PVControlV1>();
+  detail::register_ndarray_to_list_cvt<const Psana::ControlData::PVMonitorV1>();
 
 } // createWrappers()
 } // namespace ControlData
