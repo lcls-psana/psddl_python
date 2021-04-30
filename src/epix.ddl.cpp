@@ -667,27 +667,123 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
-  class_<Psana::Epix::Config10ka, boost::shared_ptr<Psana::Epix::Config10ka>, boost::noncopyable >("Config10ka", no_init)
-    .def("numberOfAsicsPerRow", &Psana::Epix::Config10ka::numberOfAsicsPerRow,"Mimic previous Epix Config interfaces")
-    .def("numberOfAsicsPerColumn", &Psana::Epix::Config10ka::numberOfAsicsPerColumn)
-    .def("numberOfRowsPerAsic", &Psana::Epix::Config10ka::numberOfRowsPerAsic)
-    .def("numberOfReadableRowsPerAsic", &Psana::Epix::Config10ka::numberOfReadableRowsPerAsic)
-    .def("numberOfPixelsPerAsicRow", &Psana::Epix::Config10ka::numberOfPixelsPerAsicRow)
-    .def("calibrationRowCountPerASIC", &Psana::Epix::Config10ka::calibrationRowCountPerASIC)
-    .def("environmentalRowCountPerASIC", &Psana::Epix::Config10ka::environmentalRowCountPerASIC)
-    .def("carrierId0", &Psana::Epix::Config10ka::carrierId0,"read-only")
-    .def("carrierId1", &Psana::Epix::Config10ka::carrierId1,"read-only")
-    .def("asicMask", &Psana::Epix::Config10ka::asicMask)
-    .def("asics", &Psana::Epix::Config10ka::asics, return_internal_reference<>())
-    .def("asicPixelConfigArray", &Psana::Epix::Config10ka::asicPixelConfigArray)
-    .def("calibPixelConfigArray", &Psana::Epix::Config10ka::calibPixelConfigArray)
-    .def("numberOfRows", &Psana::Epix::Config10ka::numberOfRows,"Interface\nNumber of pixel rows in a readout unit")
-    .def("numberOfReadableRows", &Psana::Epix::Config10ka::numberOfReadableRows,"Number of readable pixel rows in a readout unit")
-    .def("numberOfColumns", &Psana::Epix::Config10ka::numberOfColumns,"Number of pixel columns in a readout unit")
-    .def("numberOfCalibrationRows", &Psana::Epix::Config10ka::numberOfCalibrationRows,"Number of calibration rows in a readout unit")
-    .def("numberOfEnvironmentalRows", &Psana::Epix::Config10ka::numberOfEnvironmentalRows,"Number of rows in a readout unit")
-    .def("numberOfAsics", &Psana::Epix::Config10ka::numberOfAsics,"Number of columns in a readout unit")
-    .def("asics_shape", &method_shape<Psana::Epix::Config10ka, &Psana::Epix::Config10ka::asics_shape>)
+  class_<Psana::Epix::Config10kaV2, boost::shared_ptr<Psana::Epix::Config10kaV2>, boost::noncopyable >("Config10kaV2", no_init)
+    .def("version", &Psana::Epix::Config10kaV2::version)
+    .def("usePgpEvr", &Psana::Epix::Config10kaV2::usePgpEvr)
+    .def("evrRunCode", &Psana::Epix::Config10kaV2::evrRunCode)
+    .def("evrDaqCode", &Psana::Epix::Config10kaV2::evrDaqCode)
+    .def("evrRunTrigDelay", &Psana::Epix::Config10kaV2::evrRunTrigDelay)
+    .def("epixRunTrigDelay", &Psana::Epix::Config10kaV2::epixRunTrigDelay)
+    .def("epixDaqTrigDelay", &Psana::Epix::Config10kaV2::epixDaqTrigDelay)
+    .def("dacSetting", &Psana::Epix::Config10kaV2::dacSetting)
+    .def("asicGR", &Psana::Epix::Config10kaV2::asicGR)
+    .def("asicAcq", &Psana::Epix::Config10kaV2::asicAcq)
+    .def("asicR0", &Psana::Epix::Config10kaV2::asicR0)
+    .def("asicPpmat", &Psana::Epix::Config10kaV2::asicPpmat)
+    .def("asicPpbe", &Psana::Epix::Config10kaV2::asicPpbe)
+    .def("asicRoClk", &Psana::Epix::Config10kaV2::asicRoClk)
+    .def("asicGRControl", &Psana::Epix::Config10kaV2::asicGRControl)
+    .def("asicAcqControl", &Psana::Epix::Config10kaV2::asicAcqControl)
+    .def("asicR0Control", &Psana::Epix::Config10kaV2::asicR0Control)
+    .def("asicPpmatControl", &Psana::Epix::Config10kaV2::asicPpmatControl)
+    .def("asicPpbeControl", &Psana::Epix::Config10kaV2::asicPpbeControl)
+    .def("asicR0ClkControl", &Psana::Epix::Config10kaV2::asicR0ClkControl)
+    .def("prepulseR0En", &Psana::Epix::Config10kaV2::prepulseR0En)
+    .def("adcStreamMode", &Psana::Epix::Config10kaV2::adcStreamMode)
+    .def("testPatternEnable", &Psana::Epix::Config10kaV2::testPatternEnable)
+    .def("acqToAsicR0Delay", &Psana::Epix::Config10kaV2::acqToAsicR0Delay)
+    .def("asicR0ToAsicAcq", &Psana::Epix::Config10kaV2::asicR0ToAsicAcq)
+    .def("asicAcqWidth", &Psana::Epix::Config10kaV2::asicAcqWidth)
+    .def("asicAcqLToPPmatL", &Psana::Epix::Config10kaV2::asicAcqLToPPmatL)
+    .def("asicPPmatToReadout", &Psana::Epix::Config10kaV2::asicPPmatToReadout)
+    .def("asicRoClkHalfT", &Psana::Epix::Config10kaV2::asicRoClkHalfT)
+    .def("adcClkHalfT", &Psana::Epix::Config10kaV2::adcClkHalfT)
+    .def("asicR0Width", &Psana::Epix::Config10kaV2::asicR0Width)
+    .def("adcPipelineDelay", &Psana::Epix::Config10kaV2::adcPipelineDelay)
+    .def("adcPipelineDelay0", &Psana::Epix::Config10kaV2::adcPipelineDelay0)
+    .def("adcPipelineDelay1", &Psana::Epix::Config10kaV2::adcPipelineDelay1)
+    .def("adcPipelineDelay2", &Psana::Epix::Config10kaV2::adcPipelineDelay2)
+    .def("adcPipelineDelay3", &Psana::Epix::Config10kaV2::adcPipelineDelay3)
+    .def("SyncWidth", &Psana::Epix::Config10kaV2::SyncWidth)
+    .def("SyncDelay", &Psana::Epix::Config10kaV2::SyncDelay)
+    .def("prepulseR0Width", &Psana::Epix::Config10kaV2::prepulseR0Width)
+    .def("prepulseR0Delay", &Psana::Epix::Config10kaV2::prepulseR0Delay)
+    .def("digitalCardId0", &Psana::Epix::Config10kaV2::digitalCardId0)
+    .def("digitalCardId1", &Psana::Epix::Config10kaV2::digitalCardId1)
+    .def("analogCardId0", &Psana::Epix::Config10kaV2::analogCardId0)
+    .def("analogCardId1", &Psana::Epix::Config10kaV2::analogCardId1)
+    .def("carrierId0", &Psana::Epix::Config10kaV2::carrierId0)
+    .def("carrierId1", &Psana::Epix::Config10kaV2::carrierId1)
+    .def("numberOfAsicsPerRow", &Psana::Epix::Config10kaV2::numberOfAsicsPerRow)
+    .def("numberOfAsicsPerColumn", &Psana::Epix::Config10kaV2::numberOfAsicsPerColumn)
+    .def("numberOfRowsPerAsic", &Psana::Epix::Config10kaV2::numberOfRowsPerAsic)
+    .def("numberOfReadableRowsPerAsic", &Psana::Epix::Config10kaV2::numberOfReadableRowsPerAsic)
+    .def("numberOfPixelsPerAsicRow", &Psana::Epix::Config10kaV2::numberOfPixelsPerAsicRow,"for epix10ka  176")
+    .def("calibrationRowCountPerASIC", &Psana::Epix::Config10kaV2::calibrationRowCountPerASIC,"for epix10ka 96*4 = 384")
+    .def("environmentalRowCountPerASIC", &Psana::Epix::Config10kaV2::environmentalRowCountPerASIC)
+    .def("baseClockFrequency", &Psana::Epix::Config10kaV2::baseClockFrequency)
+    .def("asicMask", &Psana::Epix::Config10kaV2::asicMask)
+    .def("enableAutomaticRunTrigger", &Psana::Epix::Config10kaV2::enableAutomaticRunTrigger)
+    .def("numberOf125MhzTicksPerRunTrigger", &Psana::Epix::Config10kaV2::numberOf125MhzTicksPerRunTrigger)
+    .def("ghostCorrEn", &Psana::Epix::Config10kaV2::ghostCorrEn)
+    .def("oversampleEn", &Psana::Epix::Config10kaV2::oversampleEn)
+    .def("oversampleSize", &Psana::Epix::Config10kaV2::oversampleSize)
+    .def("scopeEnable", &Psana::Epix::Config10kaV2::scopeEnable)
+    .def("scopeTrigEdge", &Psana::Epix::Config10kaV2::scopeTrigEdge)
+    .def("scopeTrigChan", &Psana::Epix::Config10kaV2::scopeTrigChan)
+    .def("scopeArmMode", &Psana::Epix::Config10kaV2::scopeArmMode)
+    .def("scopeADCThreshold", &Psana::Epix::Config10kaV2::scopeADCThreshold)
+    .def("scopeTrigHoldoff", &Psana::Epix::Config10kaV2::scopeTrigHoldoff)
+    .def("scopeTrigOffset", &Psana::Epix::Config10kaV2::scopeTrigOffset)
+    .def("scopeTraceLength", &Psana::Epix::Config10kaV2::scopeTraceLength)
+    .def("scopeADCsameplesToSkip", &Psana::Epix::Config10kaV2::scopeADCsameplesToSkip)
+    .def("scopeChanAwaveformSelect", &Psana::Epix::Config10kaV2::scopeChanAwaveformSelect)
+    .def("scopeChanBwaveformSelect", &Psana::Epix::Config10kaV2::scopeChanBwaveformSelect)
+    .def("firmwareHash", &Psana::Epix::Config10kaV2::firmwareHash)
+    .def("firmwareDesc", &Psana::Epix::Config10kaV2::firmwareDesc)
+    .def("asics", &Psana::Epix::Config10kaV2::asics, return_internal_reference<>())
+    .def("asicPixelConfigArray", &Psana::Epix::Config10kaV2::asicPixelConfigArray)
+    .def("calibPixelConfigArray", &Psana::Epix::Config10kaV2::calibPixelConfigArray,"Calibration row config map is one row for every two calib rows")
+    .def("numberOfRows", &Psana::Epix::Config10kaV2::numberOfRows,"Number of pixel rows in a readout unit")
+    .def("numberOfReadableRows", &Psana::Epix::Config10kaV2::numberOfReadableRows,"Number of readable pixel rows in a readout unit")
+    .def("numberOfColumns", &Psana::Epix::Config10kaV2::numberOfColumns,"Number of pixel columns in a readout unit")
+    .def("numberOfCalibrationRows", &Psana::Epix::Config10kaV2::numberOfCalibrationRows,"Number of calibration rows in a readout unit")
+    .def("numberOfEnvironmentalRows", &Psana::Epix::Config10kaV2::numberOfEnvironmentalRows,"Number of rows in a readout unit")
+    .def("numberOfAsics", &Psana::Epix::Config10kaV2::numberOfAsics,"Number of columns in a readout unit")
+    .def("firmwareHash_shape", &method_shape<Psana::Epix::Config10kaV2, &Psana::Epix::Config10kaV2::firmwareHash_shape>)
+    .def("firmwareDesc_shape", &method_shape<Psana::Epix::Config10kaV2, &Psana::Epix::Config10kaV2::firmwareDesc_shape>)
+    .def("asics_shape", &method_shape<Psana::Epix::Config10kaV2, &Psana::Epix::Config10kaV2::asics_shape>)
+  ;
+  scope().attr("Version")=2;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_Epix10kaConfig);
+  scope().attr("FirmwareHashMax")=64;
+  scope().attr("FirmwareDescMax")=256;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Config10kaV2> >(Pds::TypeId::Id_Epix10kaConfig));
+
+  {
+  scope outer = 
+  class_<Psana::Epix::Elem10kaConfigV1, boost::shared_ptr<Psana::Epix::Elem10kaConfigV1>, boost::noncopyable >("Elem10kaConfigV1", no_init)
+    .def("numberOfAsicsPerRow", &Psana::Epix::Elem10kaConfigV1::numberOfAsicsPerRow,"Mimic previous Epix Config interfaces")
+    .def("numberOfAsicsPerColumn", &Psana::Epix::Elem10kaConfigV1::numberOfAsicsPerColumn)
+    .def("numberOfRowsPerAsic", &Psana::Epix::Elem10kaConfigV1::numberOfRowsPerAsic)
+    .def("numberOfReadableRowsPerAsic", &Psana::Epix::Elem10kaConfigV1::numberOfReadableRowsPerAsic)
+    .def("numberOfPixelsPerAsicRow", &Psana::Epix::Elem10kaConfigV1::numberOfPixelsPerAsicRow)
+    .def("calibrationRowCountPerASIC", &Psana::Epix::Elem10kaConfigV1::calibrationRowCountPerASIC)
+    .def("environmentalRowCountPerASIC", &Psana::Epix::Elem10kaConfigV1::environmentalRowCountPerASIC)
+    .def("carrierId0", &Psana::Epix::Elem10kaConfigV1::carrierId0,"read-only")
+    .def("carrierId1", &Psana::Epix::Elem10kaConfigV1::carrierId1,"read-only")
+    .def("asicMask", &Psana::Epix::Elem10kaConfigV1::asicMask)
+    .def("asics", &Psana::Epix::Elem10kaConfigV1::asics, return_internal_reference<>())
+    .def("asicPixelConfigArray", &Psana::Epix::Elem10kaConfigV1::asicPixelConfigArray)
+    .def("calibPixelConfigArray", &Psana::Epix::Elem10kaConfigV1::calibPixelConfigArray)
+    .def("numberOfRows", &Psana::Epix::Elem10kaConfigV1::numberOfRows,"Interface\nNumber of pixel rows in a readout unit")
+    .def("numberOfReadableRows", &Psana::Epix::Elem10kaConfigV1::numberOfReadableRows,"Number of readable pixel rows in a readout unit")
+    .def("numberOfColumns", &Psana::Epix::Elem10kaConfigV1::numberOfColumns,"Number of pixel columns in a readout unit")
+    .def("numberOfCalibrationRows", &Psana::Epix::Elem10kaConfigV1::numberOfCalibrationRows,"Number of calibration rows in a readout unit")
+    .def("numberOfEnvironmentalRows", &Psana::Epix::Elem10kaConfigV1::numberOfEnvironmentalRows,"Number of rows in a readout unit")
+    .def("numberOfAsics", &Psana::Epix::Elem10kaConfigV1::numberOfAsics,"Number of columns in a readout unit")
+    .def("asics_shape", &method_shape<Psana::Epix::Elem10kaConfigV1, &Psana::Epix::Elem10kaConfigV1::asics_shape>)
   ;
   scope().attr("_numberOfAsicsPerRow")=2;
   scope().attr("_numberOfAsicsPerColumn")=2;
@@ -697,7 +793,7 @@ void createWrappers(PyObject* module) {
   scope().attr("_calibrationRowCountPerASIC")=2;
   scope().attr("_environmentalRowCountPerASIC")=1;
   }
-  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Config10ka> >(-1));
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Elem10kaConfigV1> >(-1));
 
   class_<Psana::Epix::PgpEvrConfig, boost::shared_ptr<Psana::Epix::PgpEvrConfig>, boost::noncopyable >("PgpEvrConfig", no_init)
     .def("enable", &Psana::Epix::PgpEvrConfig::enable)
@@ -726,59 +822,128 @@ void createWrappers(PyObject* module) {
   ;
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Ad9249Config> >(-1));
 
-  class_<Psana::Epix::Config10kaQuad, boost::shared_ptr<Psana::Epix::Config10kaQuad>, boost::noncopyable >("Config10kaQuad", no_init)
-    .def("baseClockFrequency", &Psana::Epix::Config10kaQuad::baseClockFrequency,"Global")
-    .def("enableAutomaticRunTrigger", &Psana::Epix::Config10kaQuad::enableAutomaticRunTrigger)
-    .def("numberOf125MhzTicksPerRunTrigger", &Psana::Epix::Config10kaQuad::numberOf125MhzTicksPerRunTrigger)
-    .def("digitalCardId0", &Psana::Epix::Config10kaQuad::digitalCardId0,"AxiVersion (RO)")
-    .def("digitalCardId1", &Psana::Epix::Config10kaQuad::digitalCardId1)
-    .def("dcdcEn", &Psana::Epix::Config10kaQuad::dcdcEn,"SystemRegs")
-    .def("asicAnaEn", &Psana::Epix::Config10kaQuad::asicAnaEn)
-    .def("asicDigEn", &Psana::Epix::Config10kaQuad::asicDigEn)
-    .def("ddrVttEn", &Psana::Epix::Config10kaQuad::ddrVttEn)
-    .def("trigSrcSel", &Psana::Epix::Config10kaQuad::trigSrcSel)
-    .def("vguardDac", &Psana::Epix::Config10kaQuad::vguardDac)
-    .def("acqToAsicR0Delay", &Psana::Epix::Config10kaQuad::acqToAsicR0Delay,"AcqCore")
-    .def("asicR0Width", &Psana::Epix::Config10kaQuad::asicR0Width)
-    .def("asicR0ToAsicAcq", &Psana::Epix::Config10kaQuad::asicR0ToAsicAcq)
-    .def("asicAcqWidth", &Psana::Epix::Config10kaQuad::asicAcqWidth)
-    .def("asicAcqLToPPmatL", &Psana::Epix::Config10kaQuad::asicAcqLToPPmatL)
-    .def("asicPPmatToReadout", &Psana::Epix::Config10kaQuad::asicPPmatToReadout)
-    .def("asicRoClkHalfT", &Psana::Epix::Config10kaQuad::asicRoClkHalfT)
-    .def("asicAcqForce", &Psana::Epix::Config10kaQuad::asicAcqForce)
-    .def("asicR0Force", &Psana::Epix::Config10kaQuad::asicR0Force)
-    .def("asicPPmatForce", &Psana::Epix::Config10kaQuad::asicPPmatForce)
-    .def("asicSyncForce", &Psana::Epix::Config10kaQuad::asicSyncForce)
-    .def("asicRoClkForce", &Psana::Epix::Config10kaQuad::asicRoClkForce)
-    .def("asicAcqValue", &Psana::Epix::Config10kaQuad::asicAcqValue)
-    .def("asicR0Value", &Psana::Epix::Config10kaQuad::asicR0Value)
-    .def("asicPPmatValue", &Psana::Epix::Config10kaQuad::asicPPmatValue)
-    .def("asicSyncValue", &Psana::Epix::Config10kaQuad::asicSyncValue)
-    .def("asicRoClkValue", &Psana::Epix::Config10kaQuad::asicRoClkValue)
-    .def("adcPipelineDelay", &Psana::Epix::Config10kaQuad::adcPipelineDelay,"RdoutCore")
-    .def("testData", &Psana::Epix::Config10kaQuad::testData)
-    .def("scopeEnable", &Psana::Epix::Config10kaQuad::scopeEnable)
-    .def("scopeTrigEdge", &Psana::Epix::Config10kaQuad::scopeTrigEdge)
-    .def("scopeTrigChan", &Psana::Epix::Config10kaQuad::scopeTrigChan)
-    .def("scopeTrigMode", &Psana::Epix::Config10kaQuad::scopeTrigMode)
-    .def("scopeADCThreshold", &Psana::Epix::Config10kaQuad::scopeADCThreshold)
-    .def("scopeTrigHoldoff", &Psana::Epix::Config10kaQuad::scopeTrigHoldoff)
-    .def("scopeTrigOffset", &Psana::Epix::Config10kaQuad::scopeTrigOffset)
-    .def("scopeTraceLength", &Psana::Epix::Config10kaQuad::scopeTraceLength)
-    .def("scopeADCsamplesToSkip", &Psana::Epix::Config10kaQuad::scopeADCsamplesToSkip)
-    .def("scopeChanAwaveformSelect", &Psana::Epix::Config10kaQuad::scopeChanAwaveformSelect)
-    .def("scopeChanBwaveformSelect", &Psana::Epix::Config10kaQuad::scopeChanBwaveformSelect)
-    .def("scopeTrigDelay", &Psana::Epix::Config10kaQuad::scopeTrigDelay)
-    .def("adc", &Psana::Epix::Config10kaQuad::adc, return_internal_reference<>(),"Ad9249ReadoutGroup [10]\nAd9249ConfigGroup [10]")
-    .def("testChannel", &Psana::Epix::Config10kaQuad::testChannel,"AdcTester")
-    .def("testDataMask", &Psana::Epix::Config10kaQuad::testDataMask)
-    .def("testPattern", &Psana::Epix::Config10kaQuad::testPattern)
-    .def("testSamples", &Psana::Epix::Config10kaQuad::testSamples)
-    .def("testTimeout", &Psana::Epix::Config10kaQuad::testTimeout)
-    .def("testRequest", &Psana::Epix::Config10kaQuad::testRequest)
-    .def("adc_shape", &method_shape<Psana::Epix::Config10kaQuad, &Psana::Epix::Config10kaQuad::adc_shape>)
+  class_<Psana::Epix::Quad10kaConfigV1, boost::shared_ptr<Psana::Epix::Quad10kaConfigV1>, boost::noncopyable >("Quad10kaConfigV1", no_init)
+    .def("baseClockFrequency", &Psana::Epix::Quad10kaConfigV1::baseClockFrequency,"Global")
+    .def("enableAutomaticRunTrigger", &Psana::Epix::Quad10kaConfigV1::enableAutomaticRunTrigger)
+    .def("numberOf125MhzTicksPerRunTrigger", &Psana::Epix::Quad10kaConfigV1::numberOf125MhzTicksPerRunTrigger)
+    .def("digitalCardId0", &Psana::Epix::Quad10kaConfigV1::digitalCardId0,"AxiVersion (RO)")
+    .def("digitalCardId1", &Psana::Epix::Quad10kaConfigV1::digitalCardId1)
+    .def("dcdcEn", &Psana::Epix::Quad10kaConfigV1::dcdcEn,"SystemRegs")
+    .def("asicAnaEn", &Psana::Epix::Quad10kaConfigV1::asicAnaEn)
+    .def("asicDigEn", &Psana::Epix::Quad10kaConfigV1::asicDigEn)
+    .def("ddrVttEn", &Psana::Epix::Quad10kaConfigV1::ddrVttEn)
+    .def("trigSrcSel", &Psana::Epix::Quad10kaConfigV1::trigSrcSel)
+    .def("vguardDac", &Psana::Epix::Quad10kaConfigV1::vguardDac)
+    .def("acqToAsicR0Delay", &Psana::Epix::Quad10kaConfigV1::acqToAsicR0Delay,"AcqCore")
+    .def("asicR0Width", &Psana::Epix::Quad10kaConfigV1::asicR0Width)
+    .def("asicR0ToAsicAcq", &Psana::Epix::Quad10kaConfigV1::asicR0ToAsicAcq)
+    .def("asicAcqWidth", &Psana::Epix::Quad10kaConfigV1::asicAcqWidth)
+    .def("asicAcqLToPPmatL", &Psana::Epix::Quad10kaConfigV1::asicAcqLToPPmatL)
+    .def("asicPPmatToReadout", &Psana::Epix::Quad10kaConfigV1::asicPPmatToReadout)
+    .def("asicRoClkHalfT", &Psana::Epix::Quad10kaConfigV1::asicRoClkHalfT)
+    .def("asicAcqForce", &Psana::Epix::Quad10kaConfigV1::asicAcqForce)
+    .def("asicR0Force", &Psana::Epix::Quad10kaConfigV1::asicR0Force)
+    .def("asicPPmatForce", &Psana::Epix::Quad10kaConfigV1::asicPPmatForce)
+    .def("asicSyncForce", &Psana::Epix::Quad10kaConfigV1::asicSyncForce)
+    .def("asicRoClkForce", &Psana::Epix::Quad10kaConfigV1::asicRoClkForce)
+    .def("asicAcqValue", &Psana::Epix::Quad10kaConfigV1::asicAcqValue)
+    .def("asicR0Value", &Psana::Epix::Quad10kaConfigV1::asicR0Value)
+    .def("asicPPmatValue", &Psana::Epix::Quad10kaConfigV1::asicPPmatValue)
+    .def("asicSyncValue", &Psana::Epix::Quad10kaConfigV1::asicSyncValue)
+    .def("asicRoClkValue", &Psana::Epix::Quad10kaConfigV1::asicRoClkValue)
+    .def("adcPipelineDelay", &Psana::Epix::Quad10kaConfigV1::adcPipelineDelay,"RdoutCore")
+    .def("testData", &Psana::Epix::Quad10kaConfigV1::testData)
+    .def("scopeEnable", &Psana::Epix::Quad10kaConfigV1::scopeEnable)
+    .def("scopeTrigEdge", &Psana::Epix::Quad10kaConfigV1::scopeTrigEdge)
+    .def("scopeTrigChan", &Psana::Epix::Quad10kaConfigV1::scopeTrigChan)
+    .def("scopeTrigMode", &Psana::Epix::Quad10kaConfigV1::scopeTrigMode)
+    .def("scopeADCThreshold", &Psana::Epix::Quad10kaConfigV1::scopeADCThreshold)
+    .def("scopeTrigHoldoff", &Psana::Epix::Quad10kaConfigV1::scopeTrigHoldoff)
+    .def("scopeTrigOffset", &Psana::Epix::Quad10kaConfigV1::scopeTrigOffset)
+    .def("scopeTraceLength", &Psana::Epix::Quad10kaConfigV1::scopeTraceLength)
+    .def("scopeADCsamplesToSkip", &Psana::Epix::Quad10kaConfigV1::scopeADCsamplesToSkip)
+    .def("scopeChanAwaveformSelect", &Psana::Epix::Quad10kaConfigV1::scopeChanAwaveformSelect)
+    .def("scopeChanBwaveformSelect", &Psana::Epix::Quad10kaConfigV1::scopeChanBwaveformSelect)
+    .def("scopeTrigDelay", &Psana::Epix::Quad10kaConfigV1::scopeTrigDelay)
+    .def("adc", &Psana::Epix::Quad10kaConfigV1::adc, return_internal_reference<>(),"Ad9249ReadoutGroup [10]\nAd9249ConfigGroup [10]")
+    .def("testChannel", &Psana::Epix::Quad10kaConfigV1::testChannel,"AdcTester")
+    .def("testDataMask", &Psana::Epix::Quad10kaConfigV1::testDataMask)
+    .def("testPattern", &Psana::Epix::Quad10kaConfigV1::testPattern)
+    .def("testSamples", &Psana::Epix::Quad10kaConfigV1::testSamples)
+    .def("testTimeout", &Psana::Epix::Quad10kaConfigV1::testTimeout)
+    .def("testRequest", &Psana::Epix::Quad10kaConfigV1::testRequest)
+    .def("adc_shape", &method_shape<Psana::Epix::Quad10kaConfigV1, &Psana::Epix::Quad10kaConfigV1::adc_shape>)
   ;
-  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Config10kaQuad> >(-1));
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Quad10kaConfigV1> >(-1));
+
+  {
+  scope outer = 
+  class_<Psana::Epix::Quad10kaConfigV2, boost::shared_ptr<Psana::Epix::Quad10kaConfigV2>, boost::noncopyable >("Quad10kaConfigV2", no_init)
+    .def("baseClockFrequency", &Psana::Epix::Quad10kaConfigV2::baseClockFrequency,"Global")
+    .def("enableAutomaticRunTrigger", &Psana::Epix::Quad10kaConfigV2::enableAutomaticRunTrigger)
+    .def("numberOf125MhzTicksPerRunTrigger", &Psana::Epix::Quad10kaConfigV2::numberOf125MhzTicksPerRunTrigger)
+    .def("firmwareVersion", &Psana::Epix::Quad10kaConfigV2::firmwareVersion,"AxiVersion (RO)")
+    .def("digitalCardId0", &Psana::Epix::Quad10kaConfigV2::digitalCardId0)
+    .def("digitalCardId1", &Psana::Epix::Quad10kaConfigV2::digitalCardId1)
+    .def("firmwareHash", &Psana::Epix::Quad10kaConfigV2::firmwareHash)
+    .def("firmwareDesc", &Psana::Epix::Quad10kaConfigV2::firmwareDesc)
+    .def("dcdcEn", &Psana::Epix::Quad10kaConfigV2::dcdcEn,"SystemRegs")
+    .def("asicAnaEn", &Psana::Epix::Quad10kaConfigV2::asicAnaEn)
+    .def("asicDigEn", &Psana::Epix::Quad10kaConfigV2::asicDigEn)
+    .def("ddrVttEn", &Psana::Epix::Quad10kaConfigV2::ddrVttEn)
+    .def("trigSrcSel", &Psana::Epix::Quad10kaConfigV2::trigSrcSel)
+    .def("vguardDac", &Psana::Epix::Quad10kaConfigV2::vguardDac)
+    .def("acqToAsicR0Delay", &Psana::Epix::Quad10kaConfigV2::acqToAsicR0Delay,"AcqCore")
+    .def("asicR0Width", &Psana::Epix::Quad10kaConfigV2::asicR0Width)
+    .def("asicR0ToAsicAcq", &Psana::Epix::Quad10kaConfigV2::asicR0ToAsicAcq)
+    .def("asicAcqWidth", &Psana::Epix::Quad10kaConfigV2::asicAcqWidth)
+    .def("asicAcqLToPPmatL", &Psana::Epix::Quad10kaConfigV2::asicAcqLToPPmatL)
+    .def("asicPPmatToReadout", &Psana::Epix::Quad10kaConfigV2::asicPPmatToReadout)
+    .def("asicRoClkHalfT", &Psana::Epix::Quad10kaConfigV2::asicRoClkHalfT)
+    .def("asicAcqForce", &Psana::Epix::Quad10kaConfigV2::asicAcqForce)
+    .def("asicR0Force", &Psana::Epix::Quad10kaConfigV2::asicR0Force)
+    .def("asicPPmatForce", &Psana::Epix::Quad10kaConfigV2::asicPPmatForce)
+    .def("asicSyncForce", &Psana::Epix::Quad10kaConfigV2::asicSyncForce)
+    .def("asicRoClkForce", &Psana::Epix::Quad10kaConfigV2::asicRoClkForce)
+    .def("asicAcqValue", &Psana::Epix::Quad10kaConfigV2::asicAcqValue)
+    .def("asicR0Value", &Psana::Epix::Quad10kaConfigV2::asicR0Value)
+    .def("asicPPmatValue", &Psana::Epix::Quad10kaConfigV2::asicPPmatValue)
+    .def("asicSyncValue", &Psana::Epix::Quad10kaConfigV2::asicSyncValue)
+    .def("asicRoClkValue", &Psana::Epix::Quad10kaConfigV2::asicRoClkValue)
+    .def("dummyAcqEn", &Psana::Epix::Quad10kaConfigV2::dummyAcqEn)
+    .def("asicSyncInjEn", &Psana::Epix::Quad10kaConfigV2::asicSyncInjEn)
+    .def("asicSyncInjDly", &Psana::Epix::Quad10kaConfigV2::asicSyncInjDly)
+    .def("adcPipelineDelay", &Psana::Epix::Quad10kaConfigV2::adcPipelineDelay,"RdoutCore")
+    .def("testData", &Psana::Epix::Quad10kaConfigV2::testData)
+    .def("overSampleEn", &Psana::Epix::Quad10kaConfigV2::overSampleEn)
+    .def("overSampleSize", &Psana::Epix::Quad10kaConfigV2::overSampleSize)
+    .def("scopeEnable", &Psana::Epix::Quad10kaConfigV2::scopeEnable)
+    .def("scopeTrigEdge", &Psana::Epix::Quad10kaConfigV2::scopeTrigEdge)
+    .def("scopeTrigChan", &Psana::Epix::Quad10kaConfigV2::scopeTrigChan)
+    .def("scopeTrigMode", &Psana::Epix::Quad10kaConfigV2::scopeTrigMode)
+    .def("scopeADCThreshold", &Psana::Epix::Quad10kaConfigV2::scopeADCThreshold)
+    .def("scopeTrigHoldoff", &Psana::Epix::Quad10kaConfigV2::scopeTrigHoldoff)
+    .def("scopeTrigOffset", &Psana::Epix::Quad10kaConfigV2::scopeTrigOffset)
+    .def("scopeTraceLength", &Psana::Epix::Quad10kaConfigV2::scopeTraceLength)
+    .def("scopeADCsamplesToSkip", &Psana::Epix::Quad10kaConfigV2::scopeADCsamplesToSkip)
+    .def("scopeChanAwaveformSelect", &Psana::Epix::Quad10kaConfigV2::scopeChanAwaveformSelect)
+    .def("scopeChanBwaveformSelect", &Psana::Epix::Quad10kaConfigV2::scopeChanBwaveformSelect)
+    .def("scopeTrigDelay", &Psana::Epix::Quad10kaConfigV2::scopeTrigDelay)
+    .def("adc", &Psana::Epix::Quad10kaConfigV2::adc, return_internal_reference<>(),"Ad9249ReadoutGroup [10]\nAd9249ConfigGroup [10]")
+    .def("testChannel", &Psana::Epix::Quad10kaConfigV2::testChannel,"AdcTester")
+    .def("testDataMask", &Psana::Epix::Quad10kaConfigV2::testDataMask)
+    .def("testPattern", &Psana::Epix::Quad10kaConfigV2::testPattern)
+    .def("testSamples", &Psana::Epix::Quad10kaConfigV2::testSamples)
+    .def("testTimeout", &Psana::Epix::Quad10kaConfigV2::testTimeout)
+    .def("testRequest", &Psana::Epix::Quad10kaConfigV2::testRequest)
+    .def("firmwareHash_shape", &method_shape<Psana::Epix::Quad10kaConfigV2, &Psana::Epix::Quad10kaConfigV2::firmwareHash_shape>)
+    .def("firmwareDesc_shape", &method_shape<Psana::Epix::Quad10kaConfigV2, &Psana::Epix::Quad10kaConfigV2::firmwareDesc_shape>)
+    .def("adc_shape", &method_shape<Psana::Epix::Quad10kaConfigV2, &Psana::Epix::Quad10kaConfigV2::adc_shape>)
+  ;
+  scope().attr("FirmwareHashMax")=64;
+  scope().attr("FirmwareDescMax")=256;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Quad10kaConfigV2> >(-1));
 
   {
   scope outer = 
@@ -803,6 +968,27 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::Epix::Config10kaQuadV2, boost::shared_ptr<Psana::Epix::Config10kaQuadV2>, boost::noncopyable >("Config10kaQuadV2", no_init)
+    .def("numberOfElements", &Psana::Epix::Config10kaQuadV2::numberOfElements)
+    .def("numberOfRows", &Psana::Epix::Config10kaQuadV2::numberOfRows)
+    .def("numberOfReadableRows", &Psana::Epix::Config10kaQuadV2::numberOfReadableRows)
+    .def("numberOfColumns", &Psana::Epix::Config10kaQuadV2::numberOfColumns)
+    .def("numberOfCalibrationRows", &Psana::Epix::Config10kaQuadV2::numberOfCalibrationRows)
+    .def("numberOfEnvironmentalRows", &Psana::Epix::Config10kaQuadV2::numberOfEnvironmentalRows)
+    .def("numberOfAsics", &Psana::Epix::Config10kaQuadV2::numberOfAsics)
+    .def("evr", &Psana::Epix::Config10kaQuadV2::evr, return_internal_reference<1>())
+    .def("quad", &Psana::Epix::Config10kaQuadV2::quad, return_internal_reference<1>())
+    .def("elemCfg", &Psana::Epix::Config10kaQuadV2::elemCfg, return_internal_reference<>())
+    .def("elemCfg_shape", &method_shape<Psana::Epix::Config10kaQuadV2, &Psana::Epix::Config10kaQuadV2::elemCfg_shape>)
+  ;
+  scope().attr("Version")=2;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_Epix10kaQuadConfig);
+  scope().attr("_numberOfElements")=4;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Config10kaQuadV2> >(Pds::TypeId::Id_Epix10kaQuadConfig));
+
+  {
+  scope outer = 
   class_<Psana::Epix::Config10ka2MV1, boost::shared_ptr<Psana::Epix::Config10ka2MV1>, boost::noncopyable >("Config10ka2MV1", no_init)
     .def("numberOfElements", &Psana::Epix::Config10ka2MV1::numberOfElements)
     .def("numberOfRows", &Psana::Epix::Config10ka2MV1::numberOfRows)
@@ -822,6 +1008,28 @@ void createWrappers(PyObject* module) {
   scope().attr("_numberOfElements")=16;
   }
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Config10ka2MV1> >(Pds::TypeId::Id_Epix10ka2MConfig));
+
+  {
+  scope outer = 
+  class_<Psana::Epix::Config10ka2MV2, boost::shared_ptr<Psana::Epix::Config10ka2MV2>, boost::noncopyable >("Config10ka2MV2", no_init)
+    .def("numberOfElements", &Psana::Epix::Config10ka2MV2::numberOfElements)
+    .def("numberOfRows", &Psana::Epix::Config10ka2MV2::numberOfRows)
+    .def("numberOfReadableRows", &Psana::Epix::Config10ka2MV2::numberOfReadableRows)
+    .def("numberOfColumns", &Psana::Epix::Config10ka2MV2::numberOfColumns)
+    .def("numberOfCalibrationRows", &Psana::Epix::Config10ka2MV2::numberOfCalibrationRows)
+    .def("numberOfEnvironmentalRows", &Psana::Epix::Config10ka2MV2::numberOfEnvironmentalRows)
+    .def("numberOfAsics", &Psana::Epix::Config10ka2MV2::numberOfAsics)
+    .def("evr", &Psana::Epix::Config10ka2MV2::evr, return_internal_reference<1>())
+    .def("quad", &Psana::Epix::Config10ka2MV2::quad, return_internal_reference<>())
+    .def("elemCfg", &Psana::Epix::Config10ka2MV2::elemCfg, return_internal_reference<>())
+    .def("quad_shape", &method_shape<Psana::Epix::Config10ka2MV2, &Psana::Epix::Config10ka2MV2::quad_shape>)
+    .def("elemCfg_shape", &method_shape<Psana::Epix::Config10ka2MV2, &Psana::Epix::Config10ka2MV2::elemCfg_shape>)
+  ;
+  scope().attr("Version")=2;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_Epix10ka2MConfig);
+  scope().attr("_numberOfElements")=16;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Epix::Config10ka2MV2> >(Pds::TypeId::Id_Epix10ka2MConfig));
 
   {
   scope outer = 
@@ -903,14 +1111,16 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(1);
+    PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "Config10kaQuadV1"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "Config10kaQuadV2"));
     PyObject_SetAttrString(submodule, "Config10kaQuad", unvlist);
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(1);
+    PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "Config10kaV1"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "Config10kaV2"));
     PyObject_SetAttrString(submodule, "Config10ka", unvlist);
     Py_CLEAR(unvlist);
   }
@@ -922,8 +1132,9 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(1);
+    PyObject* unvlist = PyList_New(2);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "Config10ka2MV1"));
+    PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "Config10ka2MV2"));
     PyObject_SetAttrString(submodule, "Config10ka2M", unvlist);
     Py_CLEAR(unvlist);
   }
