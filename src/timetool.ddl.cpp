@@ -129,6 +129,63 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::TimeTool::ConfigV3, boost::shared_ptr<Psana::TimeTool::ConfigV3>, boost::noncopyable >("ConfigV3", no_init)
+    .def("project_axis", &Psana::TimeTool::ConfigV3::project_axis,"Time Axis of Image")
+    .def("use_full_roi", &Psana::TimeTool::ConfigV3::use_full_roi,"Use Full Regions for Background Subtraction")
+    .def("use_fit", &Psana::TimeTool::ConfigV3::use_fit,"Use Fit instead of FIR for edge finding")
+    .def("write_image", &Psana::TimeTool::ConfigV3::write_image,"Record Raw Image into Event")
+    .def("write_projections", &Psana::TimeTool::ConfigV3::write_projections,"Record Time Axis Projections into Event")
+    .def("subtract_sideband", &Psana::TimeTool::ConfigV3::subtract_sideband,"Subtract Sideband Region")
+    .def("use_reference_roi", &Psana::TimeTool::ConfigV3::use_reference_roi,"Use Separate Reference Region")
+    .def("number_of_weights", &Psana::TimeTool::ConfigV3::number_of_weights,"Number of Digital Filter Weights")
+    .def("calib_poly_dim", &Psana::TimeTool::ConfigV3::calib_poly_dim,"Pixel to Time Calibration Polynomial Dimension")
+    .def("fit_params_dim", &Psana::TimeTool::ConfigV3::fit_params_dim,"Fit Parameters Dimension")
+    .def("base_name_length", &Psana::TimeTool::ConfigV3::base_name_length,"Length of EPICS PV base name")
+    .def("number_of_beam_event_codes", &Psana::TimeTool::ConfigV3::number_of_beam_event_codes,"Number of Beam Logic Event Codes")
+    .def("number_of_laser_event_codes", &Psana::TimeTool::ConfigV3::number_of_laser_event_codes,"Number of Laser Logic Event Codes")
+    .def("signal_cut", &Psana::TimeTool::ConfigV3::signal_cut,"Projection Minimum Value for Validation")
+    .def("fit_max_iterations", &Psana::TimeTool::ConfigV3::fit_max_iterations,"Maximum Fit Solver Iterations")
+    .def("fit_weights_factor", &Psana::TimeTool::ConfigV3::fit_weights_factor,"Factor for Scaling Uncertainty for Fit Weights")
+    .def("sig_roi_lo", &Psana::TimeTool::ConfigV3::sig_roi_lo, return_value_policy<copy_const_reference>(),"Signal Region Coordinates Start")
+    .def("sig_roi_hi", &Psana::TimeTool::ConfigV3::sig_roi_hi, return_value_policy<copy_const_reference>(),"Signal Region Coordinates End")
+    .def("sb_roi_lo", &Psana::TimeTool::ConfigV3::sb_roi_lo, return_value_policy<copy_const_reference>(),"Sideband Region Coordinates Start")
+    .def("sb_roi_hi", &Psana::TimeTool::ConfigV3::sb_roi_hi, return_value_policy<copy_const_reference>(),"Sideband Region Coordinates End")
+    .def("sb_convergence", &Psana::TimeTool::ConfigV3::sb_convergence,"Sideband Rolling Average Factor (1/NFrames)")
+    .def("ref_roi_lo", &Psana::TimeTool::ConfigV3::ref_roi_lo, return_value_policy<copy_const_reference>(),"Reference Region Coordinates Start")
+    .def("ref_roi_hi", &Psana::TimeTool::ConfigV3::ref_roi_hi, return_value_policy<copy_const_reference>(),"Sideband Region Coordinates End")
+    .def("ref_convergence", &Psana::TimeTool::ConfigV3::ref_convergence,"Reference Rolling Average Factor (1/NFrames)")
+    .def("beam_logic", &Psana::TimeTool::ConfigV3::beam_logic,"Beam Logic Event Codes")
+    .def("laser_logic", &Psana::TimeTool::ConfigV3::laser_logic,"Laser Logic Event Codes")
+    .def("weights", &Psana::TimeTool::ConfigV3::weights,"Digital Filter Weights")
+    .def("calib_poly", &Psana::TimeTool::ConfigV3::calib_poly,"Pixel to Time Calibration Polynomial")
+    .def("fit_params", &Psana::TimeTool::ConfigV3::fit_params,"Initial Values for Fit Parameters")
+    .def("base_name", &Psana::TimeTool::ConfigV3::base_name,"EPICS PV base name")
+    .def("signal_projection_size", &Psana::TimeTool::ConfigV3::signal_projection_size,"Size of projections")
+    .def("sideband_projection_size", &Psana::TimeTool::ConfigV3::sideband_projection_size)
+    .def("reference_projection_size", &Psana::TimeTool::ConfigV3::reference_projection_size)
+    .def("signal_x_size", &Psana::TimeTool::ConfigV3::signal_x_size)
+    .def("signal_y_size", &Psana::TimeTool::ConfigV3::signal_y_size)
+    .def("signal_size", &Psana::TimeTool::ConfigV3::signal_size)
+    .def("sideband_x_size", &Psana::TimeTool::ConfigV3::sideband_x_size)
+    .def("sideband_y_size", &Psana::TimeTool::ConfigV3::sideband_y_size)
+    .def("sideband_size", &Psana::TimeTool::ConfigV3::sideband_size)
+    .def("reference_x_size", &Psana::TimeTool::ConfigV3::reference_x_size)
+    .def("reference_y_size", &Psana::TimeTool::ConfigV3::reference_y_size)
+    .def("reference_size", &Psana::TimeTool::ConfigV3::reference_size)
+    .def("base_name_shape", &method_shape<Psana::TimeTool::ConfigV3, &Psana::TimeTool::ConfigV3::base_name_shape>)
+  ;
+
+  enum_<Psana::TimeTool::ConfigV3::Axis>("Axis")
+    .value("X",Psana::TimeTool::ConfigV3::X)
+    .value("Y",Psana::TimeTool::ConfigV3::Y)
+  ;
+  scope().attr("Version")=3;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_TimeToolConfig);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::TimeTool::ConfigV3> >(Pds::TypeId::Id_TimeToolConfig));
+
+  {
+  scope outer = 
   class_<Psana::TimeTool::DataV1, boost::shared_ptr<Psana::TimeTool::DataV1>, boost::noncopyable >("DataV1", no_init)
     .def("event_type", &Psana::TimeTool::DataV1::event_type,"Event designation")
     .def("amplitude", &Psana::TimeTool::DataV1::amplitude,"Amplitude of the edge")
@@ -177,22 +234,53 @@ void createWrappers(PyObject* module) {
   ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::TimeTool::DataV2> >(Pds::TypeId::Id_TimeToolData));
 
   {
-    PyObject* unvlist = PyList_New(2);
+  scope outer = 
+  class_<Psana::TimeTool::DataV3, boost::shared_ptr<Psana::TimeTool::DataV3>, boost::noncopyable >("DataV3", no_init)
+    .def("event_type", &Psana::TimeTool::DataV3::event_type,"Event designation")
+    .def("amplitude", &Psana::TimeTool::DataV3::amplitude,"Amplitude of the edge")
+    .def("position_pixel", &Psana::TimeTool::DataV3::position_pixel,"Filtered pixel position of the edge")
+    .def("position_time", &Psana::TimeTool::DataV3::position_time,"Filtered time position of the edge")
+    .def("position_fwhm", &Psana::TimeTool::DataV3::position_fwhm,"Full-width half maximum of filtered edge (in pixels)")
+    .def("ref_amplitude", &Psana::TimeTool::DataV3::ref_amplitude,"Amplitude of reference at the edge")
+    .def("nxt_amplitude", &Psana::TimeTool::DataV3::nxt_amplitude,"Amplitude of the next largest edge")
+    .def("projected_signal", &Psana::TimeTool::DataV3::projected_signal,"Projected signal")
+    .def("projected_sideband", &Psana::TimeTool::DataV3::projected_sideband,"Projected sideband")
+    .def("projected_reference", &Psana::TimeTool::DataV3::projected_reference,"Projected reference")
+    .def("full_signal", &Psana::TimeTool::DataV3::full_signal,"Signal")
+    .def("full_sideband", &Psana::TimeTool::DataV3::full_sideband,"Sideband")
+    .def("full_reference", &Psana::TimeTool::DataV3::full_reference,"Reference")
+  ;
+
+  enum_<Psana::TimeTool::DataV3::EventType>("EventType")
+    .value("Dark",Psana::TimeTool::DataV3::Dark)
+    .value("Reference",Psana::TimeTool::DataV3::Reference)
+    .value("Signal",Psana::TimeTool::DataV3::Signal)
+  ;
+  scope().attr("Version")=3;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_TimeToolData);
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::TimeTool::DataV3> >(Pds::TypeId::Id_TimeToolData));
+
+  {
+    PyObject* unvlist = PyList_New(3);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "DataV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "DataV2"));
+    PyList_SET_ITEM(unvlist, 2, PyObject_GetAttrString(submodule, "DataV3"));
     PyObject_SetAttrString(submodule, "Data", unvlist);
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(2);
+    PyObject* unvlist = PyList_New(3);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
+    PyList_SET_ITEM(unvlist, 2, PyObject_GetAttrString(submodule, "ConfigV3"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
   detail::register_ndarray_to_numpy_cvt<const int32_t, 1>();
   detail::register_ndarray_to_numpy_cvt<const double, 1>();
   detail::register_ndarray_to_list_cvt<const Psana::TimeTool::EventLogic>();
+  detail::register_ndarray_to_numpy_cvt<const int32_t, 2>();
 
 } // createWrappers()
 } // namespace TimeTool
