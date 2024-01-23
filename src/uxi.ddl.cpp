@@ -99,6 +99,48 @@ void createWrappers(PyObject* module) {
 
   {
   scope outer = 
+  class_<Psana::Uxi::ConfigV3, boost::shared_ptr<Psana::Uxi::ConfigV3>, boost::noncopyable >("ConfigV3", no_init)
+    .def("roiEnable", &Psana::Uxi::ConfigV3::roiEnable,"Enable frame/row roi.")
+    .def("roiRows", &Psana::Uxi::ConfigV3::roiRows, return_value_policy<copy_const_reference>(),"The first/last rows of the roi.")
+    .def("roiFrames", &Psana::Uxi::ConfigV3::roiFrames, return_value_policy<copy_const_reference>(),"The first/last frames of the roi.")
+    .def("oscillator", &Psana::Uxi::ConfigV3::oscillator,"The oscillator to that the detector should use.")
+    .def("width", &Psana::Uxi::ConfigV3::width,"The width in pixels of each frame of the detector.")
+    .def("height", &Psana::Uxi::ConfigV3::height,"The height in pixels of each frame of the detector.")
+    .def("numberOfFrames", &Psana::Uxi::ConfigV3::numberOfFrames,"The number of frames produced by the detector.")
+    .def("numberOFBytesPerPixel", &Psana::Uxi::ConfigV3::numberOFBytesPerPixel,"The number of bytes for each pixel.")
+    .def("sensorType", &Psana::Uxi::ConfigV3::sensorType,"The sensor type ID.")
+    .def("timeOn", &Psana::Uxi::ConfigV3::timeOn,"High speed timing on parameter in ns for each side.")
+    .def("timeOff", &Psana::Uxi::ConfigV3::timeOff,"High speed timing off parameter in ns for each side.")
+    .def("delay", &Psana::Uxi::ConfigV3::delay,"High speed timing initial delay in ns for each side.")
+    .def("readOnlyPots", &Psana::Uxi::ConfigV3::readOnlyPots,"Bitmask to designate which pots should only be read and not written.")
+    .def("pots", &Psana::Uxi::ConfigV3::pots,"The values of the each of the pots in volts.")
+    .def("potIsReadOnly", &Psana::Uxi::ConfigV3::potIsReadOnly,"Check if a pot is readonly.")
+    .def("potIsTuned", &Psana::Uxi::ConfigV3::potIsTuned,"Check if a pot was tuned.")
+    .def("numPixelsPerFrame", &Psana::Uxi::ConfigV3::numPixelsPerFrame,"calculate total number of pixels per frame.")
+    .def("numPixels", &Psana::Uxi::ConfigV3::numPixels,"calculate total number of pixels across all frames.")
+    .def("frameSize", &Psana::Uxi::ConfigV3::frameSize,"Total size in bytes of the frame")
+  ;
+
+  enum_<Psana::Uxi::ConfigV3::RoiMode>("RoiMode")
+    .value("Off",Psana::Uxi::ConfigV3::Off)
+    .value("On",Psana::Uxi::ConfigV3::On)
+  ;
+
+  enum_<Psana::Uxi::ConfigV3::OscMode>("OscMode")
+    .value("RelaxationOsc",Psana::Uxi::ConfigV3::RelaxationOsc)
+    .value("RingOscWithCaps",Psana::Uxi::ConfigV3::RingOscWithCaps)
+    .value("RingOscNoCaps",Psana::Uxi::ConfigV3::RingOscNoCaps)
+    .value("ExternalClock",Psana::Uxi::ConfigV3::ExternalClock)
+  ;
+  scope().attr("Version")=3;
+  scope().attr("TypeId")=int(Pds::TypeId::Id_UxiConfig);
+  scope().attr("NumberOfPots")=13;
+  scope().attr("NumberOfSides")=2;
+  }
+  ConverterMap::instance().addConverter(boost::make_shared<ConverterBoostDefSharedPtr<Psana::Uxi::ConfigV3> >(Pds::TypeId::Id_UxiConfig));
+
+  {
+  scope outer = 
   class_<Psana::Uxi::FrameV1, boost::shared_ptr<Psana::Uxi::FrameV1>, boost::noncopyable >("FrameV1", no_init)
     .def("acquisitionCount", &Psana::Uxi::FrameV1::acquisitionCount,"The internal acquisition counter number of the detector.")
     .def("timestamp", &Psana::Uxi::FrameV1::timestamp,"The internal detector timestamp associated with the frames.")
@@ -117,9 +159,10 @@ void createWrappers(PyObject* module) {
     Py_CLEAR(unvlist);
   }
   {
-    PyObject* unvlist = PyList_New(2);
+    PyObject* unvlist = PyList_New(3);
     PyList_SET_ITEM(unvlist, 0, PyObject_GetAttrString(submodule, "ConfigV1"));
     PyList_SET_ITEM(unvlist, 1, PyObject_GetAttrString(submodule, "ConfigV2"));
+    PyList_SET_ITEM(unvlist, 2, PyObject_GetAttrString(submodule, "ConfigV3"));
     PyObject_SetAttrString(submodule, "Config", unvlist);
     Py_CLEAR(unvlist);
   }
