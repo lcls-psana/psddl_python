@@ -11,6 +11,10 @@ Package author: Joseph S. Barrera
 Please describe any modifications that you made to the package in the
 reverse time order.
 
+Tag: V01-00-07
+2024-01-23 Daniel Damiani
+- update to pdsdata 10.1.0 for Uxi, Jungfrau, and mfx usbencoder bld
+
 Tag: V01-00-06
 2023-10-13 Daniel Damiani
 - update to pdsdata 9.4.0 for Uxi
